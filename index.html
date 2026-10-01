@@ -554,6 +554,33 @@ section { position: relative; }
   html { scroll-behavior: auto; }
 }
 
+/* ============ SCENT ============ */
+.scent { padding: 0; }
+.scent-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  align-items: center;
+  gap: clamp(30px, 4.5vw, 72px);
+  /* keeps the text's right edge on the 1240 content column while the image bleeds left */
+  padding-right: clamp(24px, calc((100vw - 1240px) / 2 + 24px), 420px);
+}
+.scent-media {
+  margin: 0; overflow: hidden;
+  border-radius: 0 26px 26px 0;
+  aspect-ratio: 4 / 3;
+  box-shadow: var(--shadow-lg);
+}
+.scent-media img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+.scent-media:hover img { transform: scale(1.04); }
+.scent-copy { padding-block: 48px; }
+.scent-copy .eyebrow { display: block; margin-bottom: 14px; }
+.scent-copy h2 { font-size: clamp(32px, 3.5vw, 50px); margin-bottom: 20px; }
+.scent-copy p { font-size: 16.5px; color: var(--ink-soft); max-width: 42ch; }
+.scent-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+
 /* ============ BENEFITS ============ */
 .ben-list { display: grid; gap: 0; }
 .ben-item {
@@ -993,6 +1020,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
   .float-review cite .vb { display: none; }
   .strip-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .prob-grid, .tex-grid { grid-template-columns: 1fr; gap: 40px; }
+  .scent-split { grid-template-columns: 1fr; gap: 0; padding-right: 0; }
+  .scent-media { border-radius: 0; aspect-ratio: 4 / 3; }
+  .scent-copy { padding: 36px 24px 44px; }
   .prob-media { order: -1; aspect-ratio: 5 / 4; }
   .tex-media { aspect-ratio: 5 / 4; }
   .ben-item { grid-template-columns: 1fr; gap: 20px; padding: 36px 0; }
@@ -1294,16 +1324,22 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
 </section>
 
 <!-- ===================== SCENT ===================== -->
-<section class="sec sec-deep">
-  <div class="wrap">
-    <div class="sec-head center reveal" style="margin-bottom:0">
+<section class="sec sec-deep scent" aria-labelledby="scent-h">
+  <div class="scent-split">
+    <figure class="scent-media reveal">
+      <img src="images/fresh-lemon-silk.webp"
+           alt="Open jar of Fresh Body Butter beside halved lemons, a curl of lemon peel and a swirl of whipped butter on cream silk"
+           width="1400" height="1050" loading="lazy">
+    </figure>
+
+    <div class="scent-copy reveal">
       <span class="eyebrow">The scent</span>
-      <h2>Clean citrus. Nothing overpowering.</h2>
+      <h2 id="scent-h">Clean citrus.<br>Nothing overpowering.</h2>
       <p>
         A refreshing, spa-like citrus scent that wakes up your skin without announcing it to the room.
         Customers describe it as clean, energizing and easy to wear every day. Good for men and women.
       </p>
-      <div class="offer-strip" style="margin-top:26px;margin-bottom:0">
+      <div class="scent-chips">
         <span class="offer-chip">Fresh citrus</span>
         <span class="offer-chip">Clean &amp; light</span>
         <span class="offer-chip">Energizing</span>
