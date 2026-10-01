@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-fresh-body-butter",
+      "settings": {
+        "hero_headline": "Soft skin\nthat stays soft\nall day long.",
+        "hero_subheadline": "Rich hydration that melts in, not on. No white cast, no greasy finish. Just the kind of skin you stop to notice in the mirror.",
+        "offer_label": "15% Off",
+        "offer_text": "+ Free gift with every order",
+        "problem_headline": "Moisturized at 8am. Ashy by noon.",
+        "problem_body": "Most body butters sit on top of your skin, not inside it. Within hours, your skin drinks through whatever thin layer was left and you are back to dry, tight, and dull. You deserve better than reapplying three times a day.",
+        "benefits_headline": "Formulated to do more than feel good",
+        "benefit_1_title": "Locks in hydration all day",
+        "benefit_1_body": "A rich butter base seals moisture at the skin level instead of evaporating off the surface. One application, hours of softness.",
+        "benefit_2_title": "Smooth, glowing finish",
+        "benefit_2_body": "Skin looks visibly softer and more even-toned after the first use. The kind of glow that makes people ask what you have been doing differently.",
+        "benefit_3_title": "Lightweight, non-greasy",
+        "benefit_3_body": "Dense without being heavy. Absorbs quickly enough to get dressed right after. No transfer on your clothes, no slippery feel on your hands.",
+        "benefit_4_title": "Built for dry and ashy skin",
+        "benefit_4_body": "Formulated specifically for skin that tends to go dull fast. Works on elbows, knees, and anywhere else that needs serious attention."
+      }
+    }
+  },
+  "order": ["main"]
+}

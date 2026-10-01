@@ -1,0 +1,1015 @@
+{% comment %}
+  Section: product-fresh-body-butter
+  Custom sales page for the Fresh Body Butter product.
+  Drop into: sections/product-fresh-body-butter.liquid
+  Template:  templates/product.fresh-body-butter.json
+{% endcomment %}
+
+{% assign product = section.settings.product | default: product %}
+{% assign first_variant = product.selected_or_first_available_variant %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ---- Fresh Body Butter Sales Page Tokens ---- */
+  .pfb {
+    --cream:       #FDF4E8;
+    --cream-deep:  #F4E5D0;
+    --blush:       #FBE0CF;
+    --peach:       #F8D4BB;
+    --ink:         #2A1F1A;
+    --ink-soft:    #5C4A3F;
+    --ink-muted:   #9A8070;
+    --coral:       #FF8C72;
+    --coral-deep:  #E5664A;
+    --gold:        #C9A961;
+    --glass:       rgba(255,255,255,0.65);
+    --glass-border:rgba(255,255,255,0.88);
+
+    --serif: "Cormorant Garamond","Playfair Display",Georgia,serif;
+    --sans:  "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+    --sh-product: 0 30px 80px rgba(180,110,80,0.28), 0 80px 160px rgba(220,140,110,0.22);
+    --sh-soft:    0 8px 28px rgba(120,70,50,0.13);
+    --sh-card:    0 4px 20px rgba(120,70,50,0.09);
+
+    --r-xl: 40px;
+    --r-lg: 28px;
+    --r-md: 16px;
+  }
+
+  .pfb *, .pfb *::before, .pfb *::after { box-sizing: border-box; }
+
+  /* ---- HERO ---- */
+  .pfb-hero {
+    background: var(--cream-deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 88vh;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .pfb-hero__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 32px 64px 24px;
+  }
+
+  .pfb-hero__moon {
+    position: relative;
+    width: min(440px, 88vw);
+    aspect-ratio: 1;
+  }
+
+  .pfb-hero__moon::before {
+    content: "";
+    position: absolute;
+    inset: -28px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 55%, var(--blush) 0%, transparent 70%);
+    z-index: 0;
+  }
+
+  .pfb-hero__img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--sh-product);
+  }
+
+  .pfb-hero__rating {
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    background: var(--glass);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-lg);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--sh-soft);
+    z-index: 2;
+  }
+
+  .pfb-hero__stars { color: var(--gold); font-size: .8rem; letter-spacing: 2px; }
+  .pfb-hero__rating-text { font-size: .78rem; color: var(--ink-soft); line-height: 1.3; }
+  .pfb-hero__rating-text strong { display: block; font-size: .9rem; color: var(--ink); }
+
+  .pfb-hero__copy {
+    padding: 64px 24px 64px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .pfb-eyebrow {
+    font-family: var(--sans);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--coral);
+  }
+
+  .pfb-hero__headline {
+    font-family: var(--serif);
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    font-weight: 400;
+    line-height: 1.06;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pfb-hero__headline em { font-style: italic; color: var(--ink-soft); }
+
+  .pfb-hero__sub {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 42ch;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .pfb-offer-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--blush);
+    border-radius: 50px;
+    padding: 8px 16px 8px 10px;
+    width: fit-content;
+  }
+
+  .pfb-offer-pill__tag {
+    background: var(--coral);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    padding: 4px 11px;
+    border-radius: 50px;
+    white-space: nowrap;
+  }
+
+  .pfb-offer-pill__txt {
+    font-family: var(--sans);
+    font-size: .85rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ---- SIZE / VARIANT SELECTOR ---- */
+  .pfb-size-block { display: flex; flex-direction: column; gap: 14px; }
+
+  .pfb-size-block .pfb-eyebrow { color: var(--ink-muted); }
+
+  .pfb-size-options { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .pfb-size-opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 13px 18px;
+    min-width: 86px;
+    border: 1.5px solid rgba(180,110,80,.2);
+    border-radius: var(--r-md);
+    background: var(--glass);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    font-family: var(--sans);
+    text-align: center;
+  }
+
+  .pfb-size-opt:hover  { border-color: var(--coral); }
+  .pfb-size-opt.active { border-color: var(--coral); background: var(--blush); }
+
+  .pfb-size-opt__label { font-weight: 700; font-size: 1rem; color: var(--ink); }
+  .pfb-size-opt__price {
+    font-size: .9rem;
+    color: var(--coral);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .pfb-size-opt__was {
+    font-size: .7rem;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- ADD TO CART ---- */
+  .pfb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--sans);
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    -webkit-font-smoothing: antialiased;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .pfb-btn:hover  { transform: translateY(-2px); }
+  .pfb-btn:active { transform: translateY(0); }
+
+  .pfb-btn--primary {
+    background: var(--coral);
+    color: #fff;
+    font-size: .85rem;
+    padding: 16px 32px;
+    border-radius: 50px;
+    box-shadow: 0 6px 24px rgba(255,140,114,.38);
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .pfb-btn--primary:hover {
+    background: var(--coral-deep);
+    box-shadow: 0 10px 36px rgba(255,140,114,.48);
+  }
+
+  .pfb-btn--primary:disabled {
+    background: var(--ink-muted);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .pfb-hero__actions { display: flex; flex-direction: column; gap: 12px; }
+
+  .pfb-action-note {
+    font-family: var(--sans);
+    font-size: .77rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  /* ---- PROBLEM ---- */
+  .pfb-problem {
+    background: var(--ink);
+    padding: 88px 24px;
+    text-align: center;
+  }
+
+  .pfb-problem__inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: center;
+  }
+
+  .pfb-problem__rule {
+    width: 36px;
+    height: 2px;
+    background: var(--coral);
+    border-radius: 2px;
+  }
+
+  .pfb-problem h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.9rem,3.5vw,2.9rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.18;
+    margin: 0;
+  }
+
+  .pfb-problem p {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    color: var(--peach);
+    max-width: 52ch;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* ---- BENEFITS ---- */
+  .pfb-benefits {
+    background: var(--cream);
+    padding: 88px 24px;
+  }
+
+  .pfb-section-head {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 52px;
+  }
+
+  .pfb-section-head h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.9rem,3.5vw,2.8rem);
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pfb-benefits__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+    gap: 18px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .pfb-benefit-card {
+    background: var(--cream-deep);
+    border-radius: var(--r-lg);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border: 1px solid rgba(180,110,80,.1);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .pfb-benefit-card:hover { transform: translateY(-4px); box-shadow: var(--sh-card); }
+
+  .pfb-benefit-card__icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--blush);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pfb-benefit-card__icon svg { width: 24px; height: 24px; }
+
+  .pfb-benefit-card h3 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pfb-benefit-card p {
+    font-family: var(--sans);
+    font-size: .9rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ---- GALLERY ---- */
+  .pfb-gallery {
+    background: var(--blush);
+    padding: 80px 0 88px;
+    overflow: hidden;
+  }
+
+  .pfb-gallery .pfb-section-head { padding: 0 24px; }
+
+  .pfb-gallery__strip {
+    display: flex;
+    gap: 14px;
+    padding: 8px 24px 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .pfb-gallery__strip::-webkit-scrollbar { display: none; }
+
+  .pfb-gallery__frame {
+    flex: 0 0 280px;
+    height: 320px;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    scroll-snap-align: start;
+    box-shadow: var(--sh-soft);
+    transition: transform .22s ease;
+  }
+
+  .pfb-gallery__frame:hover { transform: scale(1.03); }
+
+  .pfb-gallery__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- HOW TO USE ---- */
+  .pfb-how {
+    background: var(--cream-deep);
+    padding: 88px 24px;
+  }
+
+  .pfb-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .pfb-step {
+    background: var(--cream);
+    border-radius: var(--r-lg);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pfb-step__num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--peach);
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+
+  .pfb-step h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pfb-step p {
+    font-family: var(--sans);
+    font-size: .88rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ---- REVIEWS ---- */
+  .pfb-reviews {
+    background: var(--ink);
+    padding: 88px 24px;
+  }
+
+  .pfb-reviews .pfb-section-head h2 { color: var(--cream); }
+
+  .pfb-reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(255px,1fr));
+    gap: 14px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .pfb-review-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: var(--r-lg);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .pfb-review-card__stars { color: var(--gold); font-size: .82rem; letter-spacing: 2px; }
+
+  .pfb-review-card blockquote {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.55;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .pfb-review-card__author {
+    font-family: var(--sans);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--peach);
+  }
+
+  /* ---- BUY BOX ---- */
+  .pfb-buybox {
+    background: var(--cream-deep);
+    padding: 96px 24px;
+  }
+
+  .pfb-buybox__inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .pfb-buybox__circle {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: var(--sh-product);
+  }
+
+  .pfb-buybox__circle img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pfb-buybox__copy { display: flex; flex-direction: column; gap: 26px; }
+
+  .pfb-buybox__copy h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.9rem,3vw,2.7rem);
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .pfb-trust-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(180,110,80,.12);
+  }
+
+  .pfb-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--sans);
+    font-size: .8rem;
+    color: var(--ink-soft);
+  }
+
+  .pfb-trust-item__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--coral);
+    flex-shrink: 0;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 720px) {
+    .pfb-hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .pfb-hero__visual { padding: 56px 24px 28px; }
+    .pfb-hero__copy   { padding: 8px 24px 60px; }
+    .pfb-hero__rating { right: 4px; bottom: 12px; }
+    .pfb-buybox__inner { grid-template-columns: 1fr; gap: 36px; }
+    .pfb-buybox__circle { width: 62%; margin: 0 auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pfb *, .pfb *::before, .pfb *::after { transition: none !important; }
+  }
+</style>
+
+<div class="pfb">
+
+  <!-- ===== HERO ===== -->
+  <section class="pfb-hero">
+
+    <div class="pfb-hero__visual">
+      <div class="pfb-hero__moon">
+        <img class="pfb-hero__img"
+             src="{{ product.featured_image | image_url: width: 1000 }}"
+             alt="{{ product.featured_image.alt | escape }}"
+             width="1000" height="1000"
+             loading="eager">
+      </div>
+
+      {% if product.metafields.reviews.rating.value != blank %}
+        <div class="pfb-hero__rating">
+          <span class="pfb-hero__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="pfb-hero__rating-text">
+            <strong>{{ product.metafields.reviews.rating.value }} out of 5</strong>
+            {{ product.metafields.reviews.rating_count.value }} reviews
+          </div>
+        </div>
+      {% else %}
+        <div class="pfb-hero__rating">
+          <span class="pfb-hero__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="pfb-hero__rating-text">
+            <strong>5.0 out of 5</strong>
+            Based on 6 reviews
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="pfb-hero__copy">
+      <span class="pfb-eyebrow">{{ product.type }}</span>
+
+      <h1 class="pfb-hero__headline">
+        {{ section.settings.hero_headline | newline_to_br }}
+      </h1>
+
+      <p class="pfb-hero__sub">{{ section.settings.hero_subheadline }}</p>
+
+      {% if section.settings.offer_text != blank %}
+        <div class="pfb-offer-pill">
+          <span class="pfb-offer-pill__tag">{{ section.settings.offer_label }}</span>
+          <span class="pfb-offer-pill__txt">{{ section.settings.offer_text }}</span>
+        </div>
+      {% endif %}
+
+      <!-- Variant / size selector -->
+      {% form 'product', product, id: 'pfb-product-form-hero', class: 'pfb-product-form' %}
+        <input type="hidden" name="id" id="pfb-variant-id-hero" value="{{ first_variant.id }}">
+
+        <div class="pfb-size-block">
+          <span class="pfb-eyebrow">Choose your size</span>
+          <div class="pfb-size-options" id="pfb-size-options-hero">
+            {% for variant in product.variants %}
+              <button type="button"
+                      class="pfb-size-opt{% if forloop.first %} active{% endif %}"
+                      data-variant-id="{{ variant.id }}"
+                      data-price="{{ variant.price | money }}"
+                      data-compare="{{ variant.compare_at_price | money }}"
+                      onclick="pfbSelectVariant(this, 'hero')"
+                      {% unless variant.available %}disabled{% endunless %}>
+                <span class="pfb-size-opt__label">{{ variant.title }}</span>
+                <span class="pfb-size-opt__price">{{ variant.price | money }}</span>
+                {% if variant.compare_at_price > variant.price %}
+                  <span class="pfb-size-opt__was">{{ variant.compare_at_price | money }}</span>
+                {% endif %}
+              </button>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="pfb-hero__actions">
+          <button type="submit"
+                  id="pfb-atc-hero"
+                  class="pfb-btn pfb-btn--primary"
+                  {% unless first_variant.available %}disabled{% endunless %}>
+            {% if first_variant.available %}
+              Add to Cart &mdash; {{ first_variant.price | money }}
+            {% else %}
+              Sold Out
+            {% endif %}
+          </button>
+          <p class="pfb-action-note">
+            Free shipping on orders $35+<br>
+            {{ section.settings.offer_label }} + {{ section.settings.offer_text }}
+          </p>
+        </div>
+      {% endform %}
+    </div>
+
+  </section>
+
+
+  <!-- ===== PROBLEM ===== -->
+  <section class="pfb-problem">
+    <div class="pfb-problem__inner">
+      <span class="pfb-eyebrow" style="color:var(--peach)">Sound familiar?</span>
+      <div class="pfb-problem__rule"></div>
+      <h2>{{ section.settings.problem_headline }}</h2>
+      <p>{{ section.settings.problem_body }}</p>
+    </div>
+  </section>
+
+
+  <!-- ===== BENEFITS ===== -->
+  <section class="pfb-benefits">
+    <div class="pfb-section-head">
+      <span class="pfb-eyebrow">Why it works</span>
+      <h2>{{ section.settings.benefits_headline }}</h2>
+    </div>
+
+    <div class="pfb-benefits__grid">
+      {% for i in (1..4) %}
+        {% assign title_key = 'benefit_' | append: i | append: '_title' %}
+        {% assign body_key  = 'benefit_' | append: i | append: '_body' %}
+        {% if section.settings[title_key] != blank %}
+          <div class="pfb-benefit-card">
+            <div class="pfb-benefit-card__icon">
+              {% case i %}
+                {% when 1 %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6 2 3 7 3 12s3 10 9 10 9-5 9-10S18 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+                {% when 2 %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                {% when 3 %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/><circle cx="7" cy="6" r="1.5" fill="var(--coral)" stroke="none"/><circle cx="17" cy="12" r="1.5" fill="var(--coral)" stroke="none"/><circle cx="7" cy="18" r="1.5" fill="var(--coral)" stroke="none"/></svg>
+                {% when 4 %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-5.4-8-11a8 8 0 1 1 16 0c0 5.6-8 11-8 11z"/></svg>
+              {% endcase %}
+            </div>
+            <h3>{{ section.settings[title_key] }}</h3>
+            <p>{{ section.settings[body_key] }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+
+  <!-- ===== GALLERY ===== -->
+  <section class="pfb-gallery">
+    <div class="pfb-section-head">
+      <span class="pfb-eyebrow">The product</span>
+      <h2>Made to be seen on your shelf</h2>
+    </div>
+    <div class="pfb-gallery__strip">
+      {% for image in product.images limit: 6 %}
+        <div class="pfb-gallery__frame">
+          <img src="{{ image | image_url: width: 600 }}"
+               alt="{{ image.alt | default: product.title | escape }}"
+               width="600" height="600"
+               loading="lazy">
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+
+  <!-- ===== HOW TO USE ===== -->
+  <section class="pfb-how">
+    <div class="pfb-section-head">
+      <span class="pfb-eyebrow">Application</span>
+      <h2>Three steps to your softest skin</h2>
+    </div>
+    <div class="pfb-steps">
+      <div class="pfb-step">
+        <span class="pfb-step__num">01</span>
+        <h3>Shower first</h3>
+        <p>Cleanse your skin as normal. Leave it slightly damp before stepping out, do not pat fully dry.</p>
+      </div>
+      <div class="pfb-step">
+        <span class="pfb-step__num">02</span>
+        <h3>Apply while damp</h3>
+        <p>Scoop a small amount and massage it onto your skin in circular motions. The warmth of your hands melts it in perfectly.</p>
+      </div>
+      <div class="pfb-step">
+        <span class="pfb-step__num">03</span>
+        <h3>Let it absorb</h3>
+        <p>Give it 60 seconds, then dress as normal. Your skin holds onto that moisture for hours. Repeat daily for best results.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== REVIEWS ===== -->
+  <section class="pfb-reviews">
+    <div class="pfb-section-head">
+      <span class="pfb-eyebrow" style="color:var(--peach)">What customers say</span>
+      <h2>5.0 stars across 6 reviews</h2>
+    </div>
+    <div class="pfb-reviews__grid">
+      <div class="pfb-review-card">
+        <span class="pfb-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <blockquote>"I am loving this body butter. So happy I found it."</blockquote>
+        <span class="pfb-review-card__author">Shirley T. &mdash; Verified buyer</span>
+      </div>
+      <div class="pfb-review-card">
+        <span class="pfb-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <blockquote>"Energizing spa-like scent. I put it on every single morning now."</blockquote>
+        <span class="pfb-review-card__author">Amanda &mdash; Verified buyer</span>
+      </div>
+      <div class="pfb-review-card">
+        <span class="pfb-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <blockquote>"Velvety skin feel, perfect citrus scent. Genuinely surprised."</blockquote>
+        <span class="pfb-review-card__author">Kayla &mdash; Verified buyer</span>
+      </div>
+      <div class="pfb-review-card">
+        <span class="pfb-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <blockquote>"Fresh clean scent, good for men too. Not overpowering at all."</blockquote>
+        <span class="pfb-review-card__author">Matt &mdash; Verified buyer</span>
+      </div>
+      <div class="pfb-review-card">
+        <span class="pfb-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <blockquote>"Rich texture but not greasy. Finally a butter that actually absorbs."</blockquote>
+        <span class="pfb-review-card__author">Joshua &mdash; Verified buyer</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== BUY BOX ===== -->
+  <section class="pfb-buybox">
+    <div class="pfb-buybox__inner">
+
+      <div class="pfb-buybox__circle">
+        {% assign second_image = product.images[1] %}
+        <img src="{{ second_image | image_url: width: 800 }}"
+             alt="{{ second_image.alt | default: product.title | escape }}"
+             width="800" height="800"
+             loading="lazy">
+      </div>
+
+      <div class="pfb-buybox__copy">
+        <span class="pfb-eyebrow">Ready to try it?</span>
+        <h2>Your softest skin is one jar away.</h2>
+
+        {% form 'product', product, id: 'pfb-product-form-buybox', class: 'pfb-product-form' %}
+          <input type="hidden" name="id" id="pfb-variant-id-buybox" value="{{ first_variant.id }}">
+
+          <div class="pfb-size-block">
+            <span class="pfb-eyebrow">Choose your size</span>
+            <div class="pfb-size-options" id="pfb-size-options-buybox">
+              {% for variant in product.variants %}
+                <button type="button"
+                        class="pfb-size-opt{% if forloop.first %} active{% endif %}"
+                        data-variant-id="{{ variant.id }}"
+                        data-price="{{ variant.price | money }}"
+                        onclick="pfbSelectVariant(this, 'buybox')"
+                        {% unless variant.available %}disabled{% endunless %}>
+                  <span class="pfb-size-opt__label">{{ variant.title }}</span>
+                  <span class="pfb-size-opt__price">{{ variant.price | money }}</span>
+                  {% if variant.compare_at_price > variant.price %}
+                    <span class="pfb-size-opt__was">{{ variant.compare_at_price | money }}</span>
+                  {% endif %}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+
+          <button type="submit"
+                  id="pfb-atc-buybox"
+                  class="pfb-btn pfb-btn--primary"
+                  {% unless first_variant.available %}disabled{% endunless %}>
+            {% if first_variant.available %}
+              Add to Cart &mdash; {{ first_variant.price | money }}
+            {% else %}
+              Sold Out
+            {% endif %}
+          </button>
+        {% endform %}
+
+        <div class="pfb-trust-row">
+          <div class="pfb-trust-item"><span class="pfb-trust-item__dot"></span>{{ section.settings.offer_label }} + {{ section.settings.offer_text }}</div>
+          <div class="pfb-trust-item"><span class="pfb-trust-item__dot"></span>Free shipping on orders $35+</div>
+          <div class="pfb-trust-item"><span class="pfb-trust-item__dot"></span>Made by Moko's CosMajix</div>
+          <div class="pfb-trust-item"><span class="pfb-trust-item__dot"></span>5-star rated by real customers</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /.pfb -->
+
+<script>
+function pfbSelectVariant(btn, scope) {
+  var container = document.getElementById('pfb-size-options-' + scope);
+  container.querySelectorAll('.pfb-size-opt').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+
+  var variantId = btn.dataset.variantId;
+  var price     = btn.dataset.price;
+
+  document.getElementById('pfb-variant-id-' + scope).value = variantId;
+
+  var atcBtn = document.getElementById('pfb-atc-' + scope);
+  if (atcBtn) {
+    atcBtn.textContent = 'Add to Cart — ' + price;
+  }
+}
+</script>
+
+{% schema %}
+{
+  "name": "Fresh Body Butter",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_headline",
+      "label": "Hero headline",
+      "default": "Soft skin\nthat stays soft\nall day long."
+    },
+    {
+      "type": "text",
+      "id": "hero_subheadline",
+      "label": "Hero subheadline",
+      "default": "Rich hydration that melts in, not on. No white cast, no greasy finish. Just the kind of skin you stop to notice in the mirror."
+    },
+    {
+      "type": "text",
+      "id": "offer_label",
+      "label": "Offer badge label",
+      "default": "15% Off"
+    },
+    {
+      "type": "text",
+      "id": "offer_text",
+      "label": "Offer description",
+      "default": "+ Free gift with every order"
+    },
+    {
+      "type": "header",
+      "content": "Problem Section"
+    },
+    {
+      "type": "text",
+      "id": "problem_headline",
+      "label": "Problem headline",
+      "default": "Moisturized at 8am. Ashy by noon."
+    },
+    {
+      "type": "textarea",
+      "id": "problem_body",
+      "label": "Problem body",
+      "default": "Most body butters sit on top of your skin, not inside it. Within hours, your skin drinks through whatever thin layer was left and you are back to dry, tight, and dull. You deserve better than reapplying three times a day."
+    },
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_headline",
+      "label": "Benefits headline",
+      "default": "Formulated to do more than feel good"
+    },
+    {
+      "type": "text",
+      "id": "benefit_1_title",
+      "label": "Benefit 1 title",
+      "default": "Locks in hydration all day"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_1_body",
+      "label": "Benefit 1 body",
+      "default": "A rich butter base seals moisture at the skin level instead of evaporating off the surface. One application, hours of softness."
+    },
+    {
+      "type": "text",
+      "id": "benefit_2_title",
+      "label": "Benefit 2 title",
+      "default": "Smooth, glowing finish"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_2_body",
+      "label": "Benefit 2 body",
+      "default": "Skin looks visibly softer and more even-toned after the first use. The kind of glow that makes people ask what you have been doing differently."
+    },
+    {
+      "type": "text",
+      "id": "benefit_3_title",
+      "label": "Benefit 3 title",
+      "default": "Lightweight, non-greasy"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_3_body",
+      "label": "Benefit 3 body",
+      "default": "Dense without being heavy. Absorbs quickly enough to get dressed right after. No transfer on your clothes, no slippery feel on your hands."
+    },
+    {
+      "type": "text",
+      "id": "benefit_4_title",
+      "label": "Benefit 4 title",
+      "default": "Built for dry and ashy skin"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_4_body",
+      "label": "Benefit 4 body",
+      "default": "Formulated specifically for skin that tends to go dull fast. Works on elbows, knees, and anywhere else that needs serious attention."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fresh Body Butter"
+    }
+  ]
+}
+{% endschema %}
