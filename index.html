@@ -355,6 +355,55 @@ p { margin: 0; }
   background: var(--ink); border-color: var(--ink); color: var(--ivory);
 }
 
+/* quantity + free shipping meter */
+.opt-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 10px;
+}
+.opt-head .size-label { margin: 0; }
+.qty-stepper {
+  display: flex; align-items: center;
+  border: 1.5px solid var(--rule); border-radius: 12px;
+  background: #fff; overflow: hidden;
+}
+.qty-stepper button {
+  width: 44px; height: 44px; border: 0; background: none;
+  font-size: 18px; line-height: 1; color: var(--ink-soft);
+  display: grid; place-items: center;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.qty-stepper button:hover:not(:disabled) { background: var(--cream); color: var(--ink); }
+.qty-stepper button:disabled { opacity: .3; cursor: not-allowed; }
+.qty-val {
+  min-width: 34px; text-align: center;
+  font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
+.ship-meter { margin-top: 14px; }
+.ship-track {
+  height: 4px; border-radius: 999px;
+  background: var(--cream-deep); overflow: hidden;
+}
+.ship-fill {
+  height: 100%; width: 0%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--caramel), var(--citrus));
+  transition: width .45s var(--ease);
+}
+.ship-note {
+  margin-top: 8px; font-size: 12.5px; color: var(--ink-soft);
+  display: flex; align-items: center; gap: 7px;
+}
+.ship-note b { color: var(--ink); font-weight: 600; }
+.ship-note.done { color: var(--caramel-deep); font-weight: 500; }
+.ship-note svg { flex: none; }
+.ship-add {
+  background: none; border: 0; padding: 0;
+  font: inherit; font-size: 12.5px; font-weight: 600;
+  color: var(--caramel-deep); text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ship-add:hover { color: var(--ink); }
+
 .btn-buy {
   display: flex; align-items: center; justify-content: space-between; gap: 18px;
   width: 100%;
@@ -1059,17 +1108,29 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
           <span class="price-save">Save 15%</span>
         </div>
 
-        <div class="size-label">Choose your size</div>
+        <div class="opt-head">
+          <span class="size-label">Choose your size</span>
+          <div class="qty-stepper" role="group" aria-label="Quantity">
+            <button type="button" data-qty="-1" aria-label="Decrease quantity">&minus;</button>
+            <span class="qty-val" id="qtyVal" aria-live="polite">1</span>
+            <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
         <div class="size-opts" role="group" aria-label="Select size">
           <button class="size-opt" data-size="3" aria-pressed="true">3 oz</button>
           <button class="size-opt" data-size="5" aria-pressed="false">5 oz</button>
           <button class="size-opt" data-size="8" aria-pressed="false">8 oz</button>
         </div>
 
-        <a class="btn-buy" href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh">
-          <span>Get my body butter</span>
-          <span class="bprice" data-price-now>$19.55</span>
+        <a class="btn-buy" data-cart href="https://mokoscosmajix.com/cart/43677831594175:1?storefront=true">
+          <span>Add to cart</span>
+          <span class="bprice" data-total>$19.55</span>
         </a>
+
+        <div class="ship-meter">
+          <div class="ship-track"><div class="ship-fill" id="shipFill"></div></div>
+          <p class="ship-note" id="shipNote"></p>
+        </div>
 
         <ul class="trust-row">
           <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Free shipping over $35</li>
@@ -1402,9 +1463,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </div>
 
     <div class="buy-cta-wide reveal">
-      <a class="btn-buy" href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh">
+      <a class="btn-buy" data-cart href="https://mokoscosmajix.com/cart/43677831594175:1?storefront=true">
         <span>Yes, I want softer skin</span>
-        <span class="bprice" data-price-now>$19.55</span>
+        <span class="bprice" data-total>$19.55</span>
       </a>
     </div>
   </div>
@@ -1534,9 +1595,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
       </div>
 
       <div class="buy-cta-wide">
-        <a class="btn-buy" href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh">
+        <a class="btn-buy" data-cart href="https://mokoscosmajix.com/cart/43677831594175:1?storefront=true">
           <span>Get Fresh Body Butter</span>
-          <span class="bprice" data-price-now>$19.55</span>
+          <span class="bprice" data-total>$19.55</span>
         </a>
       </div>
 
@@ -1596,7 +1657,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
       <button class="size-opt" data-size="5" aria-pressed="false">5 oz</button>
       <button class="size-opt" data-size="8" aria-pressed="false">8 oz</button>
     </div>
-    <a class="btn-buy" href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh">Add to cart</a>
+    <a class="btn-buy" data-cart href="https://mokoscosmajix.com/cart/43677831594175:1?storefront=true">Add to cart</a>
   </div>
 </div>
 
@@ -1614,11 +1675,11 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     <div class="popup-body">
       <div id="popupForm">
         <span class="eyebrow">Before you scroll on</span>
-        <h2 class="popup-headline" id="popup-title">Take <em>15% off</em> your first jar.</h2>
-        <p>Drop your email and we will send your code, plus first access when a new scent drops.</p>
+        <h2 class="popup-headline" id="popup-title">Your <em>15% off</em> is already applied.</h2>
+        <p>No code to hunt for, it is built into every price on this page. Leave your email and you will hear first when a new scent drops.</p>
         <form class="popup-form" id="popupFormEl" novalidate>
           <input type="email" id="popupEmail" placeholder="your@email.com" aria-label="Email address" required autocomplete="email">
-          <button type="submit">Send my code</button>
+          <button type="submit">Keep me posted</button>
         </form>
         <button class="popup-decline" id="popupDecline">No thanks, I like dry skin</button>
         <p class="popup-fine">No spam. Unsubscribe anytime.</p>
@@ -1628,9 +1689,8 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
         <div class="tick">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h3>You're in.</h3>
-        <p>Use this code at checkout for 15% off.</p>
-        <div class="popup-code">FRESH15</div>
+        <h3>You're on the list.</h3>
+        <p>We will let you know the moment a new scent lands. Your 15% off and free gift are already waiting at checkout.</p>
       </div>
     </div>
   </div>
@@ -1657,26 +1717,123 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
 (function () {
   "use strict";
 
-  /* ---------- pricing ---------- */
+  /* ---------- analytics event layer (GTM / GA4 ready) ---------- */
+  window.dataLayer = window.dataLayer || [];
+  function track(event, data) {
+    var payload = { event: event };
+    for (var k in data) payload[k] = data[k];
+    window.dataLayer.push(payload);
+  }
+
+  /* ---------- pricing + cart ---------- */
+  var SHOP = "https://mokoscosmajix.com";
+  var FREE_SHIP = 3500; // cents
+  var MAX_QTY = 10;
+
   var PRICES = {
-    "3": { now: "$19.55", was: "$23.00" },
-    "5": { now: "$22.31", was: "$26.25" },
-    "8": { now: "$26.78", was: "$31.50" }
+    "3": { now: "$19.55", was: "$23.00", cents: 1955, variant: "43677831594175" },
+    "5": { now: "$22.31", was: "$26.25", cents: 2231, variant: "43677831626943" },
+    "8": { now: "$26.78", was: "$31.50", cents: 2678, variant: "43677831659711" }
   };
 
-  function selectSize(size) {
-    var p = PRICES[size];
-    if (!p) return;
+  var state = { size: "3", qty: 1 };
+
+  function money(cents) {
+    return "$" + (cents / 100).toFixed(2);
+  }
+
+  function render() {
+    var p = PRICES[state.size];
+    var total = p.cents * state.qty;
+
     document.querySelectorAll("[data-price-now]").forEach(function (el) { el.textContent = p.now; });
     document.querySelectorAll("[data-price-was]").forEach(function (el) { el.textContent = p.was; });
+    document.querySelectorAll("[data-total]").forEach(function (el) { el.textContent = money(total); });
+
     document.querySelectorAll(".size-opt, .pick-card").forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.dataset.size === size));
+      b.setAttribute("aria-pressed", String(b.dataset.size === state.size));
     });
+
+    // storefront=true keeps the buyer on the cart page instead of jumping to Shop Pay
+    var url = SHOP + "/cart/" + p.variant + ":" + state.qty + "?storefront=true";
+    document.querySelectorAll("[data-cart]").forEach(function (a) { a.href = url; });
+
+    var qv = document.getElementById("qtyVal");
+    if (qv) qv.textContent = state.qty;
+    document.querySelectorAll(".qty-stepper button").forEach(function (b) {
+      var d = parseInt(b.dataset.qty, 10);
+      b.disabled = (d < 0 && state.qty <= 1) || (d > 0 && state.qty >= MAX_QTY);
+    });
+
+    renderShipping(total);
+  }
+
+  var TICK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function renderShipping(total) {
+    var fill = document.getElementById("shipFill");
+    var note = document.getElementById("shipNote");
+    if (!fill || !note) return;
+
+    var pct = Math.min(100, (total / FREE_SHIP) * 100);
+    fill.style.width = pct + "%";
+
+    if (total >= FREE_SHIP) {
+      note.className = "ship-note done";
+      note.innerHTML = TICK + " Nice. Your order ships free.";
+    } else {
+      var gap = FREE_SHIP - total;
+      note.className = "ship-note";
+      note.innerHTML = "You are <b>" + money(gap) + "</b> from free shipping. " +
+        '<button type="button" class="ship-add" data-addjar>Add another jar</button>';
+    }
+  }
+
+  function setSize(size) {
+    if (!PRICES[size] || size === state.size) return;
+    state.size = size;
+    render();
+    track("select_size", { size: size + " oz", price: PRICES[size].cents / 100 });
+  }
+
+  function setQty(n) {
+    var next = Math.min(MAX_QTY, Math.max(1, n));
+    if (next === state.qty) return;
+    state.qty = next;
+    render();
+    track("change_quantity", { quantity: next });
   }
 
   document.querySelectorAll(".size-opt, .pick-card").forEach(function (btn) {
-    btn.addEventListener("click", function () { selectSize(btn.dataset.size); });
+    btn.addEventListener("click", function () { setSize(btn.dataset.size); });
   });
+
+  document.addEventListener("click", function (e) {
+    var step = e.target.closest(".qty-stepper button");
+    if (step) { setQty(state.qty + parseInt(step.dataset.qty, 10)); return; }
+
+    if (e.target.closest("[data-addjar]")) {
+      setQty(state.qty + 1);
+      return;
+    }
+
+    var buy = e.target.closest("[data-cart]");
+    if (buy) {
+      track("add_to_cart", {
+        currency: "USD",
+        value: (PRICES[state.size].cents * state.qty) / 100,
+        items: [{
+          item_name: "Fresh Moisturizing Body Butter",
+          item_variant: state.size + " oz",
+          variant_id: PRICES[state.size].variant,
+          price: PRICES[state.size].cents / 100,
+          quantity: state.qty
+        }]
+      });
+    }
+  });
+
+  render();
 
   /* ---------- header shadow ---------- */
   var header = document.getElementById("siteHeader");
@@ -1715,6 +1872,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
       var open = btn.getAttribute("aria-expanded") === "true";
       btn.setAttribute("aria-expanded", String(!open));
       btn.nextElementSibling.hidden = open;
+      if (!open) track("faq_open", { question: btn.textContent.trim() });
     });
   });
 
@@ -1733,6 +1891,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     if (shown || seen()) return;
     shown = true;
     popup.classList.add("open");
+    track("popup_shown", {});
     var email = document.getElementById("popupEmail");
     if (email) setTimeout(function () { email.focus(); }, 420);
   }
@@ -1764,6 +1923,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     document.getElementById("popupForm").hidden = true;
     document.getElementById("popupSuccess").hidden = false;
     markSeen();
+    track("newsletter_signup", { method: "exit_popup" });
     setTimeout(function () { popup.classList.remove("open"); }, 4200);
   });
 
