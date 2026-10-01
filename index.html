@@ -11,12 +11,12 @@
 <meta property="og:site_name" content="Moko's CosMajix">
 <meta property="og:title" content="Fresh Body Butter | Soft Skin, All Day">
 <meta property="og:description" content="Rich, whipped hydration that melts into skin without the grease. Rated 5.0 by verified customers. From $19.55.">
-<meta property="og:image" content="https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/moisturizing-body-butter-fresh-7337840.png">
+<meta property="og:image" content="https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/fresh-pedestal-swirl.jpg">
 <meta property="og:url" content="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Fresh Body Butter | Soft Skin, All Day">
 <meta name="twitter:description" content="Rich, whipped hydration that melts into skin without the grease. From $19.55.">
-<meta name="twitter:image" content="https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/moisturizing-body-butter-fresh-7337840.png">
+<meta name="twitter:image" content="https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/fresh-pedestal-swirl.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,9 +30,11 @@
   "brand": { "@type": "Brand", "name": "Moko's CosMajix" },
   "description": "A rich, whipped moisturizing body butter with a clean citrus scent. Melts into skin on contact and absorbs without a greasy finish. Formulated for dry, dull and ashy skin.",
   "image": [
+    "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/fresh-pedestal-swirl.jpg",
     "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/moisturizing-body-butter-fresh-7337840.png",
-    "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/moisturizing-body-butter-fresh-4223978.png",
-    "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/moisturizing-body-butter-fresh-6219761.png",
+    "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/fresh-texture-macro.jpg",
+    "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/fresh-citrus-swirl.jpg",
+    "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/fresh-scoop-dollop.jpg",
     "https://zaddywebbuilds.github.io/moisturizing-body-butter-fresh/images/moisturizing-body-butter-fresh-3910778.jpg"
   ],
   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "6", "bestRating": "5" },
@@ -400,11 +402,7 @@ section { position: relative; }
   border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg);
   aspect-ratio: 1 / 1;
 }
-.tex-media img {
-  width: 100%; height: 100%; object-fit: cover;
-  object-position: center 22%;
-  transform: scale(1.5);
-}
+.tex-media img { width: 100%; height: 100%; object-fit: cover; }
 .tex-copy h2 { font-size: clamp(32px, 4.2vw, 52px); margin-bottom: 20px; }
 .tex-copy h2 .l2 { display: block; font-style: italic; color: var(--caramel); font-weight: 300; }
 .tex-copy > p { font-size: 16.5px; color: var(--ink-soft); max-width: 42ch; }
@@ -508,18 +506,29 @@ section { position: relative; }
 }
 
 /* ============ SHOWCASE ============ */
-.show-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+.show-band {
+  position: relative;
+  border-radius: 24px; overflow: hidden;
+  aspect-ratio: 16 / 9; background: var(--cream);
+  box-shadow: var(--shadow-lg);
 }
-.show-cell {
-  border-radius: 16px; overflow: hidden; aspect-ratio: 3 / 4;
-  background: var(--cream); box-shadow: var(--shadow-sm);
-}
-.show-cell img {
+.show-band img {
   width: 100%; height: 100%; object-fit: cover;
-  transition: transform 1s var(--ease);
+  transition: transform 1.2s var(--ease);
 }
-.show-cell:hover img { transform: scale(1.09); }
+.show-band:hover img { transform: scale(1.05); }
+.show-band-note {
+  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+  display: flex; gap: 8px;
+}
+.show-band-note span {
+  background: rgba(252,248,242,.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(224,210,191,.7);
+  border-radius: 999px; padding: 8px 18px;
+  font-size: 12px; font-weight: 600; letter-spacing: .08em;
+  color: var(--ink);
+}
 
 /* ============ HOW TO USE ============ */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; list-style: none; margin: 0; padding: 0; }
@@ -841,7 +850,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
   .ben-item { grid-template-columns: 1fr; gap: 20px; padding: 36px 0; }
   .ben-num { font-size: 13px; }
   .ben-media { aspect-ratio: 16 / 9; }
-  .show-grid { grid-template-columns: repeat(2, 1fr); }
+  .show-band { aspect-ratio: 4 / 3; }
   .steps { grid-template-columns: 1fr; gap: 28px; }
   .pick-grid { grid-template-columns: 1fr; }
   .obj-grid { grid-template-columns: 1fr; }
@@ -874,7 +883,8 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
   .score-num { font-size: 54px; }
   .rev-card { width: 272px; padding: 24px; }
   .rev-card blockquote { font-size: 19px; }
-  .show-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .show-band { aspect-ratio: 1 / 1; border-radius: 18px; }
+  .show-band-note span { padding: 7px 13px; font-size: 11px; }
   .sticky-name { font-size: 14px; }
   .sticky-thumb { width: 40px; height: 40px; }
 }
@@ -1019,9 +1029,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </div>
 
     <div class="prob-media reveal">
-      <img src="images/moisturizing-body-butter-fresh-4223978.png"
-           alt="Sealed 8 oz jar of Fresh Body Butter with a rose gold lid resting on a wooden tray beside dried wheat and a terracotta linen napkin"
-           width="1000" height="1000" loading="lazy">
+      <img src="images/fresh-leg-application.jpg"
+           alt="A woman in a cream robe smoothing Fresh Body Butter along her lower leg in soft morning light"
+           width="1600" height="1200" loading="lazy">
     </div>
   </div>
 </section>
@@ -1030,9 +1040,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
 <section class="sec sec-cream">
   <div class="wrap tex-grid">
     <div class="tex-media reveal">
-      <img src="images/moisturizing-body-butter-fresh-7337840.png"
-           alt="Close detail of the whipped body butter peak inside the open jar"
-           width="1000" height="1000" loading="lazy">
+      <img src="images/fresh-texture-macro.jpg"
+           alt="Macro close-up of the whipped Fresh Body Butter showing its soft peaks and velvety swirls"
+           width="1600" height="1200" loading="lazy">
     </div>
     <div class="tex-copy reveal">
       <span class="eyebrow">The texture</span>
@@ -1066,7 +1076,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
           <p>Rich hydration helps keep skin feeling soft for hours, so you are not chasing dryness all afternoon.</p>
         </div>
         <div class="ben-media">
-          <img src="images/moisturizing-body-butter-fresh-7337840.png" alt="Whipped body butter texture inside the open jar" width="900" height="560" loading="lazy">
+          <img src="images/fresh-arm-smooth-skin.jpg" alt="A woman running her hand down a smooth, moisturized forearm" width="1600" height="1200" loading="lazy">
         </div>
       </article>
 
@@ -1077,7 +1087,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
           <p>Leaves skin looking moisturized and healthy without a slick finish or shine you have to blot away.</p>
         </div>
         <div class="ben-media">
-          <img src="images/moisturizing-body-butter-fresh-4223978.png" alt="Fresh Body Butter jar styled on a wooden tray in warm light" width="900" height="560" loading="lazy">
+          <img src="images/fresh-scoop-dollop.jpg" alt="A hand lifting a small scoop of Fresh Body Butter from the open jar, with a soft dollop resting beside it" width="1600" height="1200" loading="lazy">
         </div>
       </article>
 
@@ -1099,7 +1109,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
           <p>Give extra attention to elbows, knees, legs and anywhere else that tends to feel rough and go dull fast.</p>
         </div>
         <div class="ben-media">
-          <img src="images/moisturizing-body-butter-fresh-3910778.jpg" alt="Three jars of Fresh Body Butter on a wooden tray in golden afternoon light" width="900" height="560" loading="lazy">
+          <img src="images/moisturizing-body-butter-fresh-4223978.png" alt="Sealed 8 oz jar of Fresh Body Butter on a wooden tray beside dried wheat and a terracotta napkin" width="1000" height="1000" loading="lazy">
         </div>
       </article>
     </div>
@@ -1199,11 +1209,13 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
       <span class="eyebrow">The product</span>
       <h2>Meet your new bathroom-shelf favorite.</h2>
     </div>
-    <div class="show-grid reveal">
-      <div class="show-cell"><img src="images/moisturizing-body-butter-fresh-4223978.png" alt="Front view of the 8 oz Fresh Body Butter jar with its rose gold lid" width="750" height="1000" loading="lazy"></div>
-      <div class="show-cell"><img src="images/moisturizing-body-butter-fresh-7337840.png" alt="Open jar showing the whipped texture of the body butter" width="750" height="1000" loading="lazy"></div>
-      <div class="show-cell"><img src="images/moisturizing-body-butter-fresh-6219761.png" alt="The 8 oz and 5 oz jars of Fresh Body Butter together on a wooden tray" width="750" height="1000" loading="lazy"></div>
-      <div class="show-cell"><img src="images/moisturizing-body-butter-fresh-3910778.jpg" alt="All three jar sizes of Fresh Body Butter in warm golden light" width="750" height="1000" loading="lazy"></div>
+    <div class="show-band reveal">
+      <img src="images/moisturizing-body-butter-fresh-3910778.jpg"
+           alt="All three sizes of Fresh Body Butter arranged on a wooden tray in warm golden afternoon light"
+           width="1000" height="1000" loading="lazy">
+      <div class="show-band-note">
+        <span>3 oz</span><span>5 oz</span><span>8 oz</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1382,9 +1394,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
 <section class="finale">
   <div class="wrap">
     <div class="finale-media reveal">
-      <img src="images/moisturizing-body-butter-fresh-3910778.jpg"
-           alt="All three sizes of Fresh Body Butter arranged on a wooden tray in warm golden light"
-           width="1000" height="690" loading="lazy">
+      <img src="images/fresh-pedestal-swirl.jpg"
+           alt="The 8 oz Fresh Body Butter jar on a pale stone pedestal with a sweep of whipped butter behind it"
+           width="1792" height="1008" loading="lazy">
     </div>
 
     <div class="reveal">
@@ -1480,7 +1492,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </button>
 
     <div class="popup-img">
-      <img src="images/moisturizing-body-butter-fresh-4223978.png" alt="Fresh Body Butter jar on a wooden tray" width="600" height="600" loading="lazy">
+      <img src="images/fresh-citrus-swirl.jpg" alt="Open jar of Fresh Body Butter beside a lemon slice and a swirl of whipped butter" width="1792" height="1008" loading="lazy">
     </div>
 
     <div class="popup-body">
@@ -1512,7 +1524,7 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
 <div class="sp-toast" id="spToast" role="status" aria-live="polite">
   <button class="sp-close" id="spClose" aria-label="Dismiss">&times;</button>
   <div class="sp-avatar">
-    <img src="images/moisturizing-body-butter-fresh-4223978.png" alt="" width="88" height="88">
+    <img src="images/moisturizing-body-butter-fresh-7337840.png" alt="" width="88" height="88">
   </div>
   <div class="sp-body">
     <div class="sp-name" id="spName">Maya from Atlanta, GA</div>
