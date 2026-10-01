@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Fresh Body Butter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/*
+  Layout: Long-form sales page — asymmetric hero, alternating warm/dark sections, circular product motif
+  Color: Warm cream ground | blush accents | chocolate ink | coral action
+  Type: Cormorant Garamond (display) + Inter (body/UI)
+*/
+
+:root {
+  --cream:       #FDF4E8;
+  --cream-deep:  #F4E5D0;
+  --blush:       #FBE0CF;
+  --peach:       #F8D4BB;
+  --ink:         #2A1F1A;
+  --ink-soft:    #5C4A3F;
+  --ink-muted:   #9A8070;
+  --coral:       #FF8C72;
+  --coral-deep:  #E5664A;
+  --gold:        #C9A961;
+  --glass:       rgba(255,255,255,0.65);
+  --glass-border:rgba(255,255,255,0.88);
+
+  --serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --sh-product: 0 30px 80px rgba(180,110,80,0.28), 0 80px 160px rgba(220,140,110,0.22);
+  --sh-glow:    0 0 80px rgba(255,140,114,0.18);
+  --sh-soft:    0 8px 28px rgba(120,70,50,0.13);
+  --sh-card:    0 4px 20px rgba(120,70,50,0.09);
+
+  --r-xl: 40px;
+  --r-lg: 28px;
+  --r-md: 16px;
+  --r-sm: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cream:       #1C1209;
+    --cream-deep:  #221409;
+    --blush:       #2E1B10;
+    --peach:       #3A2214;
+    --ink:         #F4E5D0;
+    --ink-soft:    #C8A890;
+    --ink-muted:   #8A7060;
+    --glass:       rgba(30,18,8,0.70);
+    --glass-border:rgba(80,50,30,0.50);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --cream:       #1C1209;
+  --cream-deep:  #221409;
+  --blush:       #2E1B10;
+  --peach:       #3A2214;
+  --ink:         #F4E5D0;
+  --ink-soft:    #C8A890;
+  --ink-muted:   #8A7060;
+  --glass:       rgba(30,18,8,0.70);
+  --glass-border:rgba(80,50,30,0.50);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--cream-deep);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ——— UTILS ——— */
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--coral);
+}
+
+.section-head {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+.section-head h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  font-weight: 500;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* ——— NAV ——— */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nav-brand {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.nav-brand strong { color: var(--coral); font-weight: 600; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:hover  { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  background: var(--coral);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 14px 30px;
+  border-radius: 50px;
+  box-shadow: 0 6px 24px rgba(255,140,114,0.38);
+}
+
+.btn-primary:hover {
+  background: var(--coral-deep);
+  box-shadow: 0 10px 36px rgba(255,140,114,0.48);
+}
+
+.btn-sm { font-size: 0.78rem; padding: 11px 22px; }
+
+/* ——— HERO ——— */
+.hero {
+  background: var(--cream-deep);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 90vh;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Left — circular product image */
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 32px 64px 24px;
+}
+
+.hero-moon {
+  position: relative;
+  width: min(440px, 88vw);
+  aspect-ratio: 1;
+}
+
+/* ambient glow ring behind the product */
+.hero-moon::before {
+  content: "";
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 55%, var(--blush) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.hero-moon-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--sh-product);
+}
+
+/* floating rating chip */
+.rating-chip {
+  position: absolute;
+  bottom: 48px;
+  right: 0;
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--sh-soft);
+  z-index: 2;
+}
+
+.rating-stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; }
+.rating-text { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.3; }
+.rating-text strong { display: block; font-size: 0.9rem; color: var(--ink); }
+
+/* Right — copy */
+.hero-copy {
+  padding: 64px 24px 64px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1.06;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.hero-headline em {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 42ch;
+  line-height: 1.7;
+}
+
+.offer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--blush);
+  border-radius: 50px;
+  padding: 8px 16px 8px 10px;
+  width: fit-content;
+}
+
+.offer-tag {
+  background: var(--coral);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.offer-txt { font-size: 0.85rem; color: var(--ink); font-weight: 500; }
+
+/* size selector */
+.size-block { display: flex; flex-direction: column; gap: 14px; }
+
+.size-block .eyebrow { color: var(--ink-muted); }
+
+.size-options { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.size-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 13px 18px;
+  border: 1.5px solid rgba(180,110,80,0.2);
+  border-radius: var(--r-md);
+  background: var(--glass);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-family: var(--sans);
+  min-width: 86px;
+  text-align: center;
+}
+
+.size-opt:hover  { border-color: var(--coral); }
+.size-opt.active { border-color: var(--coral); background: var(--blush); }
+
+.sz-label { font-weight: 700; font-size: 1rem; color: var(--ink); }
+.sz-price { font-size: 0.9rem; color: var(--coral); font-weight: 600; font-variant-numeric: tabular-nums; }
+.sz-was   { font-size: 0.7rem; color: var(--ink-muted); text-decoration: line-through; font-variant-numeric: tabular-nums; }
+
+.hero-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+.action-note { font-size: 0.77rem; color: var(--ink-muted); line-height: 1.5; }
+
+/* ——— PROBLEM ——— */
+.problem {
+  background: var(--ink);
+  padding: 88px 24px;
+  text-align: center;
+}
+
+.problem-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: center;
+}
+
+.problem h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.18;
+  text-wrap: balance;
+}
+
+.problem p {
+  font-size: 1.05rem;
+  color: var(--peach);
+  max-width: 52ch;
+  line-height: 1.75;
+}
+
+.problem-rule {
+  width: 36px;
+  height: 2px;
+  background: var(--coral);
+  border-radius: 2px;
+}
+
+/* ——— BENEFITS ——— */
+.benefits {
+  background: var(--cream);
+  padding: 88px 24px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.benefit-card {
+  background: var(--cream-deep);
+  border-radius: var(--r-lg);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid rgba(180,110,80,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-card);
+}
+
+.benefit-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: var(--blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.benefit-icon svg { width: 24px; height: 24px; }
+
+.benefit-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.benefit-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.65; }
+
+/* ——— GALLERY ——— */
+.gallery {
+  background: var(--blush);
+  padding: 80px 0 88px;
+  overflow: hidden;
+}
+
+.gallery .section-head { padding: 0 24px; }
+
+.gallery-strip {
+  display: flex;
+  gap: 14px;
+  padding: 8px 24px 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gallery-strip::-webkit-scrollbar { display: none; }
+
+.gallery-frame {
+  flex: 0 0 280px;
+  height: 320px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  scroll-snap-align: start;
+  box-shadow: var(--sh-soft);
+  transition: transform 0.22s ease;
+}
+
+.gallery-frame:hover { transform: scale(1.03); }
+.gallery-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ——— HOW TO USE ——— */
+.how {
+  background: var(--cream-deep);
+  padding: 88px 24px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.step {
+  background: var(--cream);
+  border-radius: var(--r-lg);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-num {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--peach);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.step-title {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.step-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+
+/* ——— REVIEWS ——— */
+.reviews {
+  background: var(--ink);
+  padding: 88px 24px;
+}
+
+.reviews .section-head h2 { color: var(--cream); }
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 14px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.review-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.review-stars { color: var(--gold); font-size: 0.82rem; letter-spacing: 2px; }
+
+.review-quote {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1.55;
+}
+
+.review-author {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--peach);
+}
+
+/* ——— BUY BOX ——— */
+.buy-box {
+  background: var(--cream-deep);
+  padding: 96px 24px;
+}
+
+.buy-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.buy-visual {
+  position: relative;
+}
+
+.buy-circle {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: var(--sh-product);
+}
+
+.buy-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+.buy-copy { display: flex; flex-direction: column; gap: 26px; }
+
+.buy-copy h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  font-weight: 400;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.trust-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(180,110,80,0.12);
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.trust-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--coral);
+  flex-shrink: 0;
+}
+
+/* ——— FOOTER ——— */
+.footer {
+  background: var(--ink);
+  padding: 44px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+
+.footer-brand strong { color: var(--coral); }
+
+.footer-rule {
+  width: 36px;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+
+.footer-copy { font-size: 0.78rem; color: var(--ink-muted); }
+
+.footer-link {
+  font-size: 0.8rem;
+  color: var(--peach);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.footer-link:hover { color: var(--coral); }
+
+/* ——— RESPONSIVE ——— */
+@media (max-width: 720px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .hero-visual {
+    padding: 56px 24px 28px;
+  }
+
+  .hero-copy {
+    padding: 8px 24px 60px;
+  }
+
+  .rating-chip {
+    right: 4px;
+    bottom: 12px;
+  }
+
+  .buy-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .buy-circle { width: 62%; margin: 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-brand" href="#">Moko's <strong>CosMajix</strong></a>
+  <a class="btn btn-primary btn-sm" href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh" target="_blank">Shop Now</a>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-visual">
+    <div class="hero-moon">
+      <img class="hero-moon-img"
+           src="images/moisturizing-body-butter-fresh-4223978.png"
+           alt="Fresh Body Butter jar by Moko's CosMajix">
+    </div>
+    <div class="rating-chip">
+      <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <div class="rating-text">
+        <strong>5.0 out of 5</strong>
+        Based on 6 reviews
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-copy">
+    <span class="eyebrow">Fresh Body Butter</span>
+
+    <h1 class="hero-headline">
+      Soft skin<br>
+      that <em>stays</em> soft<br>
+      all day long.
+    </h1>
+
+    <p class="hero-sub">
+      Rich hydration that melts in, not on. No white cast, no greasy finish.
+      Just the kind of skin you stop to notice in the mirror.
+    </p>
+
+    <div class="offer-pill">
+      <span class="offer-tag">15% Off</span>
+      <span class="offer-txt">+ Free gift with every order</span>
+    </div>
+
+    <div class="size-block">
+      <span class="eyebrow">Choose your size</span>
+      <div class="size-options" id="sizeOptions">
+        <button class="size-opt active" data-price="$19.55" data-was="$23.00" onclick="selectSize(this)">
+          <span class="sz-label">3 oz</span>
+          <span class="sz-price">$19.55</span>
+          <span class="sz-was">$23.00</span>
+        </button>
+        <button class="size-opt" data-price="$22.31" data-was="$26.25" onclick="selectSize(this)">
+          <span class="sz-label">5 oz</span>
+          <span class="sz-price">$22.31</span>
+          <span class="sz-was">$26.25</span>
+        </button>
+        <button class="size-opt" data-price="$26.78" data-was="$31.50" onclick="selectSize(this)">
+          <span class="sz-label">8 oz</span>
+          <span class="sz-price">$26.78</span>
+          <span class="sz-was">$31.50</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a id="heroCta" class="btn btn-primary"
+         href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh"
+         target="_blank">Add to Cart &mdash; $19.55</a>
+      <p class="action-note">Free shipping on orders $35+<br>Limited-time offer</p>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="problem-inner">
+    <span class="eyebrow" style="color:var(--peach)">Sound familiar?</span>
+    <div class="problem-rule"></div>
+    <h2>Moisturized at 8am. Ashy by noon.</h2>
+    <p>
+      Most body butters sit on top of your skin, not inside it. Within hours,
+      your skin drinks through whatever thin layer was left and you are back to
+      dry, tight, and dull. You deserve better than reapplying three times a day.
+    </p>
+  </div>
+</section>
+
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="section-head">
+    <span class="eyebrow">Why it works</span>
+    <h2>Formulated to do more than feel good</h2>
+  </div>
+
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6 2 3 7 3 12s3 10 9 10 9-5 9-10S18 2 12 2z"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h3 class="benefit-title">Locks in hydration all day</h3>
+      <p class="benefit-desc">A rich butter base seals moisture at the skin level instead of evaporating off the surface. One application, hours of softness.</p>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </div>
+      <h3 class="benefit-title">Smooth, glowing finish</h3>
+      <p class="benefit-desc">Skin looks visibly softer and more even-toned after the first use. The kind of glow that makes people ask what you have been doing differently.</p>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+          <circle cx="7" cy="6" r="1.5" fill="var(--coral)" stroke="none"/>
+          <circle cx="17" cy="12" r="1.5" fill="var(--coral)" stroke="none"/>
+          <circle cx="7" cy="18" r="1.5" fill="var(--coral)" stroke="none"/>
+        </svg>
+      </div>
+      <h3 class="benefit-title">Lightweight, non-greasy</h3>
+      <p class="benefit-desc">Dense without being heavy. Absorbs quickly enough to get dressed right after. No transfer on your clothes, no slippery feel on your hands.</p>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s-8-5.4-8-11a8 8 0 1 1 16 0c0 5.6-8 11-8 11z"/>
+        </svg>
+      </div>
+      <h3 class="benefit-title">Built for dry and ashy skin</h3>
+      <p class="benefit-desc">Formulated specifically for skin that tends to go dull fast. Works on elbows, knees, and anywhere else that needs serious attention.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="section-head">
+    <span class="eyebrow">The product</span>
+    <h2>Made to be seen on your shelf</h2>
+  </div>
+  <div class="gallery-strip">
+    <div class="gallery-frame">
+      <img src="images/moisturizing-body-butter-fresh-4223978.png" alt="Fresh Body Butter front view">
+    </div>
+    <div class="gallery-frame">
+      <img src="images/moisturizing-body-butter-fresh-6219761.png" alt="Fresh Body Butter lifestyle shot">
+    </div>
+    <div class="gallery-frame">
+      <img src="images/moisturizing-body-butter-fresh-3910778.jpg" alt="Fresh Body Butter texture close-up">
+    </div>
+    <div class="gallery-frame">
+      <img src="images/moisturizing-body-butter-fresh-7337840.png" alt="Fresh Body Butter label detail">
+    </div>
+  </div>
+</section>
+
+
+<!-- HOW TO USE -->
+<section class="how">
+  <div class="section-head">
+    <span class="eyebrow">Application</span>
+    <h2>Three steps to your softest skin</h2>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <h3 class="step-title">Shower first</h3>
+      <p class="step-desc">Cleanse your skin as normal. Leave it slightly damp before stepping out, do not pat fully dry.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <h3 class="step-title">Apply while damp</h3>
+      <p class="step-desc">Scoop a small amount and massage it onto your skin in circular motions. The warmth of your hands melts it in perfectly.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <h3 class="step-title">Let it absorb</h3>
+      <p class="step-desc">Give it 60 seconds, then dress as normal. Your skin holds onto that moisture for hours. Repeat daily for best results.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="section-head">
+    <span class="eyebrow" style="color:var(--peach)">What customers say</span>
+    <h2>5.0 stars across 6 reviews</h2>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="review-card">
+      <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <p class="review-quote">"I am loving this body butter. So happy I found it."</p>
+      <span class="review-author">Shirley T. &mdash; Verified buyer</span>
+    </div>
+    <div class="review-card">
+      <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <p class="review-quote">"Energizing spa-like scent. I put it on every single morning now."</p>
+      <span class="review-author">Amanda &mdash; Verified buyer</span>
+    </div>
+    <div class="review-card">
+      <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <p class="review-quote">"Velvety skin feel, perfect citrus scent. Genuinely surprised."</p>
+      <span class="review-author">Kayla &mdash; Verified buyer</span>
+    </div>
+    <div class="review-card">
+      <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <p class="review-quote">"Fresh clean scent, good for men too. Not overpowering at all."</p>
+      <span class="review-author">Matt &mdash; Verified buyer</span>
+    </div>
+    <div class="review-card">
+      <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <p class="review-quote">"Rich texture but not greasy. Finally a butter that actually absorbs."</p>
+      <span class="review-author">Joshua &mdash; Verified buyer</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- BUY BOX -->
+<section class="buy-box">
+  <div class="buy-inner">
+    <div class="buy-visual">
+      <div class="buy-circle">
+        <img src="images/moisturizing-body-butter-fresh-6219761.png"
+             alt="Fresh Body Butter by Moko's CosMajix">
+      </div>
+    </div>
+
+    <div class="buy-copy">
+      <span class="eyebrow">Ready to try it?</span>
+      <h2>Your softest skin is one jar away.</h2>
+
+      <div class="size-block">
+        <span class="eyebrow">Choose your size</span>
+        <div class="size-options" id="sizeOptions2">
+          <button class="size-opt active" data-price="$19.55" data-was="$23.00" onclick="selectSize2(this)">
+            <span class="sz-label">3 oz</span>
+            <span class="sz-price">$19.55</span>
+            <span class="sz-was">$23.00</span>
+          </button>
+          <button class="size-opt" data-price="$22.31" data-was="$26.25" onclick="selectSize2(this)">
+            <span class="sz-label">5 oz</span>
+            <span class="sz-price">$22.31</span>
+            <span class="sz-was">$26.25</span>
+          </button>
+          <button class="size-opt" data-price="$26.78" data-was="$31.50" onclick="selectSize2(this)">
+            <span class="sz-label">8 oz</span>
+            <span class="sz-price">$26.78</span>
+            <span class="sz-was">$31.50</span>
+          </button>
+        </div>
+      </div>
+
+      <a id="buyCta" class="btn btn-primary"
+         href="https://mokoscosmajix.com/products/moisturizing-body-butter-fresh"
+         target="_blank">Add to Cart &mdash; $19.55</a>
+
+      <div class="trust-row">
+        <div class="trust-item"><span class="trust-dot"></span>15% off + free gift, limited time</div>
+        <div class="trust-item"><span class="trust-dot"></span>Free shipping on orders $35+</div>
+        <div class="trust-item"><span class="trust-dot"></span>Made by Moko's CosMajix</div>
+        <div class="trust-item"><span class="trust-dot"></span>5-star rated by real customers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-brand">Moko's <strong>CosMajix</strong></span>
+  <div class="footer-rule"></div>
+  <a class="footer-link" href="https://mokoscosmajix.com" target="_blank">mokoscosmajix.com</a>
+  <p class="footer-copy">&copy; 2025 Moko's CosMajix. All rights reserved.</p>
+</footer>
+
+
+<script>
+function selectSize(btn) {
+  document.querySelectorAll('#sizeOptions .size-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const price = btn.dataset.price;
+  document.getElementById('heroCta').textContent = 'Add to Cart — ' + price;
+}
+
+function selectSize2(btn) {
+  document.querySelectorAll('#sizeOptions2 .size-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const price = btn.dataset.price;
+  document.getElementById('buyCta').textContent = 'Add to Cart — ' + price;
+}
+</script>
+
+</body>
+</html>
