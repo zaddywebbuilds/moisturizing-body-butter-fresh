@@ -37,6 +37,29 @@ even before you pick anything. Each picker falls back to a product image:
 Upload the files from `../images/` (use the `.webp` versions, they are 83% smaller)
 via **Content > Files**, then select them in the customizer.
 
+## Hero video
+
+Upload `../video/hero.mp4` through **Content > Files**, then pick it in
+**Hero video**. It autoplays muted, loops, and pauses when scrolled out of view.
+Leave it empty and the hero falls back to the hero image.
+
+Captions are set in **Hero video captions**, one word per line as `word|seconds`:
+
+```
+Okay,|7.6
+this|8.5
+feels|8.8
+so|9.02
+good.|9.36
+```
+
+Each word appears at its timestamp, so the caption types itself out in time with
+the voiceover. Values are already filled in from the transcript of the supplied
+clip. If you swap the video, redo the timings or the captions will drift.
+
+Autoplay only works muted, which is why captions matter here: the sound button in
+the corner lets a viewer turn the voiceover on.
+
 ## What is wired up
 
 - **Real add to cart.** One `{% form 'product' %}` in the hero. Every other CTA on

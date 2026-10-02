@@ -126,8 +126,27 @@
       </div>
 
       <div class="hero-media">
-        <div class="hero-frame">
-          {%- if img_hero -%}
+        <div class="hero-frame" data-hero-frame>
+          {%- if s.hero_video -%}
+            <video class="hero-video" data-hero-video
+                   {% if s.hero_video.preview_image %}poster="{{ s.hero_video.preview_image | image_url: width: 1200 }}"{% endif %}
+                   muted loop playsinline autoplay preload="auto"
+                   aria-label="{{ s.hero_video_alt | escape }}">
+              {%- for source in s.hero_video.sources -%}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {%- endfor -%}
+            </video>
+
+            {%- if s.caption_words != blank -%}
+              <p class="hero-caption" data-hero-caption aria-hidden="true"></p>
+            {%- endif -%}
+
+            <button class="hero-sound" type="button" data-hero-sound
+                    aria-pressed="false" aria-label="Turn sound on">
+              <svg class="ic-off" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+              <svg class="ic-on" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+            </button>
+          {%- elsif img_hero -%}
             {{ img_hero | image_url: width: 1200 | image_tag:
                  widths: '400,600,800,1000,1200',
                  sizes: '(max-width: 900px) 100vw, 50vw',
@@ -602,6 +621,7 @@
       "productTitle": {{ product.title | default: 'Fresh Body Butter' | json }},
       "showToast": {{ s.show_toast | json }},
       "showPopup": {{ s.show_popup | json }},
+      "caption": {{ s.caption_words | json }},
       "popupDelay": {{ s.popup_delay | times: 1000 }},
       "buyers": {{ s.toast_buyers | json }},
       "variants": [
@@ -798,6 +818,62 @@
 
     render();
 
+    /* ---------- hero video captions ---------- */
+    var vid = root.querySelector('[data-hero-video]');
+    var cap = root.querySelector('[data-hero-caption]');
+    var frame = root.querySelector('[data-hero-frame]');
+
+    if (vid) {
+      if (cap && D.caption) {
+        // one "word|seconds" pair per line
+        var WORDS = D.caption.split('\n').map(function (line) {
+          var bits = line.split('|');
+          return { w: (bits[0] || '').trim(), t: parseFloat(bits[1]) };
+        }).filter(function (x) { return x.w && !isNaN(x.t); })
+          .sort(function (a, b) { return a.t - b.t; });
+
+        var drawn = 0;
+        function paint() {
+          var t = vid.currentTime, n = 0;
+          for (var i = 0; i < WORDS.length; i++) if (t >= WORDS[i].t) n++;
+          if (n < drawn) { cap.textContent = ""; drawn = 0; }
+          while (drawn < n) {
+            var sp = document.createElement('span');
+            sp.textContent = WORDS[drawn].w;
+            cap.appendChild(sp);
+            drawn++;
+          }
+          if (frame) frame.classList.toggle('cap-on', drawn > 0);
+        }
+
+        // interval rather than rAF: word gaps go to 0.2s and rAF stalls on hidden tabs
+        var capTimer = null;
+        vid.addEventListener('play', function () { if (!capTimer) capTimer = setInterval(paint, 50); });
+        vid.addEventListener('pause', function () { clearInterval(capTimer); capTimer = null; });
+        vid.addEventListener('seeked', paint);
+        vid.addEventListener('timeupdate', paint);
+        if (!vid.paused) capTimer = setInterval(paint, 50);
+        paint();
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) {
+          if (e[0].isIntersecting) { vid.play().catch(function () {}); } else { vid.pause(); }
+        }, { threshold: 0.15 }).observe(vid);
+      }
+
+      var sound = root.querySelector('[data-hero-sound]');
+      if (sound) {
+        sound.addEventListener('click', function () {
+          vid.muted = !vid.muted;
+          sound.setAttribute('aria-pressed', String(!vid.muted));
+          sound.setAttribute('aria-label', vid.muted ? 'Turn sound on' : 'Turn sound off');
+          if (!vid.muted) vid.play().catch(function () {});
+          track("hero_video_sound", { on: !vid.muted });
+        });
+      }
+    }
+
     /* ---------- sticky bar ---------- */
     var bar = root.querySelector('[data-sticky]');
     var anchor = root.querySelector('#pfb-buyunit-{{ section.id }} [data-add]');
@@ -911,7 +987,10 @@
     { "type": "text", "id": "promo_text", "label": "Promo pill", "default": "15% off + free gift" },
     { "type": "text", "id": "size_label", "label": "Size label", "default": "Choose your size" },
     { "type": "text", "id": "cta_primary", "label": "Primary CTA", "default": "Add to cart" },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image", "info": "Used when no hero video is set." },
+    { "type": "video", "id": "hero_video", "label": "Hero video", "info": "Autoplays muted and loops. Takes priority over the hero image." },
+    { "type": "text", "id": "hero_video_alt", "label": "Hero video description", "default": "A customer holding a jar of Fresh Body Butter in her bathroom after a shower" },
+    { "type": "textarea", "id": "caption_words", "label": "Hero video captions", "info": "One word per line as word|seconds, e.g. Okay,|7.6 — each word appears as it is spoken.", "default": "Okay,|7.6\nthis|8.5\nfeels|8.8\nso|9.02\ngood.|9.36" },
     { "type": "text", "id": "float_quote", "label": "Floating review quote", "default": "\"Rich texture but not greasy.\"" },
     { "type": "text", "id": "float_author", "label": "Floating review author", "default": "Joshua" },
 
