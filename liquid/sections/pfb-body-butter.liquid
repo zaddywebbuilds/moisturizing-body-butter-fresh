@@ -1,0 +1,1061 @@
+{%- comment -%}
+  Fresh Body Butter landing section for Moko's CosMajix.
+  All CSS is scoped under .pfb so it cannot collide with the theme.
+  Drop-in: assets/pfb-body-butter.css + sections/pfb-body-butter.liquid
+{%- endcomment -%}
+
+{{ 'pfb-body-butter.css' | asset_url | stylesheet_tag }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap">
+
+{%- liquid
+  assign s = section.settings
+  assign cv = product.selected_or_first_available_variant
+
+  assign img_hero    = s.hero_image    | default: product.featured_image
+  assign img_problem = s.problem_image | default: product.images[1]
+  assign img_texture = s.texture_image | default: product.images[2]
+  assign img_scent   = s.scent_image   | default: product.images[3]
+  assign img_band    = s.band_image    | default: product.images[4]
+  assign img_finale  = s.finale_image  | default: product.featured_image
+  assign img_popup   = s.popup_image   | default: product.featured_image
+
+  assign ship_cents = s.free_ship_threshold | times: 100
+
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign faq_blocks    = section.blocks | where: 'type', 'faq'
+  assign benefit_blocks = section.blocks | where: 'type', 'benefit'
+  assign objection_blocks = section.blocks | where: 'type', 'objection'
+-%}
+
+<div class="pfb" id="pfb-{{ section.id }}" data-pfb>
+
+  {%- comment -%} ============ HERO ============ {%- endcomment -%}
+  <section class="hero" aria-labelledby="pfb-hero-h-{{ section.id }}">
+    <div class="hero-inner">
+
+      <div class="hero-copy">
+        {%- if s.show_rating -%}
+          <div class="hero-rating">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span>{{ s.rating_text }}</span>
+          </div>
+        {%- endif -%}
+
+        <h1 id="pfb-hero-h-{{ section.id }}">
+          {{ s.headline_1 }}<span class="l2">{{ s.headline_2 }}</span>
+        </h1>
+
+        <p class="hero-sub">{{ s.hero_sub }}</p>
+
+        {%- if s.promo_text != blank -%}
+          <div class="promo-pill">
+            <span class="dot" aria-hidden="true"></span>
+            {{ s.promo_text }}
+          </div>
+        {%- endif -%}
+
+        <div class="buy-unit" id="pfb-buyunit-{{ section.id }}">
+          <div class="buy-name">{{ product.title | default: 'Fresh Body Butter' }}</div>
+
+          <div class="price-row">
+            <span class="price-now" data-price-now>{{ cv.price | money }}</span>
+            {%- if cv.compare_at_price > cv.price -%}
+              <span class="price-was" data-price-was>{{ cv.compare_at_price | money }}</span>
+              <span class="price-save" data-price-save>
+                Save {{ cv.compare_at_price | minus: cv.price | times: 100 | divided_by: cv.compare_at_price }}%
+              </span>
+            {%- else -%}
+              <span class="price-was" data-price-was hidden></span>
+              <span class="price-save" data-price-save hidden></span>
+            {%- endif -%}
+          </div>
+
+          {%- form 'product', product, id: 'pfb-form', novalidate: 'novalidate' -%}
+            <input type="hidden" name="id" value="{{ cv.id }}" data-variant-input>
+            <input type="hidden" name="quantity" value="1" data-qty-input>
+
+            <div class="opt-head">
+              <span class="size-label">{{ s.size_label }}</span>
+              <div class="qty-stepper" role="group" aria-label="Quantity">
+                <button type="button" data-qty="-1" aria-label="Decrease quantity">&minus;</button>
+                <span class="qty-val" data-qty-val aria-live="polite">1</span>
+                <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+
+            <div class="size-opts" role="group" aria-label="Select size">
+              {%- for v in product.variants -%}
+                <button type="button" class="size-opt" data-variant="{{ v.id }}"
+                        aria-pressed="{% if v.id == cv.id %}true{% else %}false{% endif %}"
+                        {% unless v.available %}disabled{% endunless %}>
+                  {{ v.title }}
+                </button>
+              {%- else -%}
+                <button type="button" class="size-opt" aria-pressed="true">One size</button>
+              {%- endfor -%}
+            </div>
+
+            <button type="submit" name="add" class="btn-buy" data-add>
+              <span data-add-label>{{ s.cta_primary }}</span>
+              <span class="bprice" data-total>{{ cv.price | money }}</span>
+            </button>
+          {%- endform -%}
+
+          {%- if s.show_ship_meter -%}
+            <div class="ship-meter">
+              <div class="ship-track"><div class="ship-fill" data-ship-fill></div></div>
+              <p class="ship-note" data-ship-note></p>
+            </div>
+          {%- endif -%}
+
+          <ul class="trust-row">
+            {%- for i in (1..3) -%}
+              {%- assign key = 'trust_' | append: i -%}
+              {%- assign val = s[key] -%}
+              {%- if val != blank -%}
+                <li>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  {{ val }}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-frame">
+          {%- if img_hero -%}
+            {{ img_hero | image_url: width: 1200 | image_tag:
+                 widths: '400,600,800,1000,1200',
+                 sizes: '(max-width: 900px) 100vw, 50vw',
+                 fetchpriority: 'high',
+                 alt: img_hero.alt | default: product.title }}
+          {%- endif -%}
+        </div>
+
+        {%- if s.float_quote != blank -%}
+          <figure class="float-review">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <blockquote>{{ s.float_quote }}</blockquote>
+            <cite>{{ s.float_author }}<span class="vb">, verified buyer</span></cite>
+          </figure>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </section>
+
+  {%- comment -%} ============ BENEFIT STRIP ============ {%- endcomment -%}
+  {%- if s.strip_1 != blank -%}
+    <section class="strip" aria-label="Key benefits">
+      <div class="strip-inner">
+        {%- for i in (1..4) -%}
+          {%- assign key = 'strip_' | append: i -%}
+          {%- assign val = s[key] -%}
+          {%- if val != blank -%}
+            <div class="strip-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              {{ val }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ============ PROBLEM ============ {%- endcomment -%}
+  <section class="sec sec-ivory">
+    <div class="wrap prob-grid">
+      <div class="prob-copy reveal">
+        <span class="eyebrow">{{ s.problem_eyebrow }}</span>
+        <h2 style="margin-top:14px">{{ s.problem_headline }}</h2>
+        <p>{{ s.problem_body_1 }}</p>
+        <p>{{ s.problem_body_2 }}</p>
+        {%- if s.compare_before != blank -%}
+          <div class="compare">
+            <div class="compare-row bad"><span class="tag">Then</span>{{ s.compare_before }}</div>
+            <div class="compare-row good"><span class="tag">Now</span>{{ s.compare_after }}</div>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="prob-media reveal">
+        {%- if img_problem -%}
+          {{ img_problem | image_url: width: 1000 | image_tag:
+               widths: '400,600,800,1000', sizes: '(max-width: 900px) 100vw, 45vw',
+               loading: 'lazy', alt: img_problem.alt | default: product.title }}
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ TEXTURE ============ {%- endcomment -%}
+  <section class="sec sec-cream">
+    <div class="wrap tex-grid">
+      <div class="tex-media reveal">
+        {%- if img_texture -%}
+          {{ img_texture | image_url: width: 1000 | image_tag:
+               widths: '400,600,800,1000', sizes: '(max-width: 900px) 100vw, 50vw',
+               loading: 'lazy', alt: img_texture.alt | default: product.title }}
+        {%- endif -%}
+      </div>
+      <div class="tex-copy reveal">
+        <span class="eyebrow">{{ s.texture_eyebrow }}</span>
+        <h2 style="margin-top:14px">{{ s.texture_h1 }}<span class="l2">{{ s.texture_h2 }}</span></h2>
+        <p>{{ s.texture_body }}</p>
+        <ul class="tex-points">
+          {%- for i in (1..3) -%}
+            {%- assign key = 'texture_point_' | append: i -%}
+            {%- assign val = s[key] -%}
+            {%- if val != blank -%}
+              <li><span class="n">0{{ i }}</span> {{ val }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ BENEFITS ============ {%- endcomment -%}
+  {%- if benefit_blocks.size > 0 -%}
+    <section class="sec sec-ivory" id="pfb-benefits-{{ section.id }}">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="eyebrow">{{ s.benefits_eyebrow }}</span>
+          <h2>{{ s.benefits_headline }}</h2>
+        </div>
+        <div class="ben-list">
+          {%- for b in benefit_blocks -%}
+            <article class="ben-item reveal" {{ b.shopify_attributes }}>
+              <div class="ben-num">0{{ forloop.index }}</div>
+              <div class="ben-text">
+                <h3>{{ b.settings.title }}</h3>
+                <p>{{ b.settings.body }}</p>
+              </div>
+              <div class="ben-media">
+                {%- assign bi = b.settings.image -%}
+                {%- if bi -%}
+                  {{ bi | image_url: width: 900 | image_tag:
+                       widths: '400,600,900', sizes: '(max-width: 900px) 100vw, 32vw',
+                       loading: 'lazy', alt: bi.alt | default: b.settings.title }}
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ============ SCENT ============ {%- endcomment -%}
+  <section class="sec sec-deep scent" aria-labelledby="pfb-scent-h-{{ section.id }}">
+    <div class="scent-split">
+      <figure class="scent-media reveal">
+        {%- if img_scent -%}
+          {{ img_scent | image_url: width: 1400 | image_tag:
+               widths: '500,800,1100,1400', sizes: '(max-width: 900px) 100vw, 58vw',
+               loading: 'lazy', alt: img_scent.alt | default: product.title }}
+        {%- endif -%}
+      </figure>
+      <div class="scent-copy reveal">
+        <span class="eyebrow">{{ s.scent_eyebrow }}</span>
+        <h2 id="pfb-scent-h-{{ section.id }}">{{ s.scent_headline }}</h2>
+        <p>{{ s.scent_body }}</p>
+        {%- if s.scent_chips != blank -%}
+          <div class="scent-chips">
+            {%- assign chips = s.scent_chips | split: ',' -%}
+            {%- for c in chips -%}
+              <span class="offer-chip">{{ c | strip }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ REVIEWS ============ {%- endcomment -%}
+  {%- if review_blocks.size > 0 -%}
+    <section class="sec sec-reviews" id="pfb-reviews-{{ section.id }}">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">{{ s.reviews_eyebrow }}</span>
+          <h2>{{ s.reviews_headline }}</h2>
+        </div>
+        <div class="score-block reveal">
+          <div class="score-num">{{ s.rating_score }}</div>
+          <div class="score-meta">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <small>{{ s.rating_count_text }}</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="rev-scroll" role="list" aria-label="Customer reviews">
+        {%- for b in review_blocks -%}
+          <article class="rev-card" role="listitem" {{ b.shopify_attributes }}>
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <blockquote>{{ b.settings.quote }}</blockquote>
+            <div class="rev-foot">
+              <div class="rev-name">{{ b.settings.author }}</div>
+              <div class="rev-ver">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Verified buyer
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+      <p class="rev-hint">Swipe for more</p>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ============ SHOWCASE BAND ============ {%- endcomment -%}
+  {%- if img_band -%}
+    <section class="sec sec-ivory">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">{{ s.band_eyebrow }}</span>
+          <h2>{{ s.band_headline }}</h2>
+        </div>
+        <div class="show-band reveal">
+          {{ img_band | image_url: width: 1400 | image_tag:
+               widths: '600,900,1200,1400', sizes: '100vw',
+               loading: 'lazy', alt: img_band.alt | default: product.title }}
+          <div class="show-band-note">
+            {%- for v in product.variants limit: 3 -%}
+              <span>{{ v.title }}</span>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ============ HOW TO USE ============ {%- endcomment -%}
+  <section class="sec sec-cream" id="pfb-how-{{ section.id }}">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">{{ s.how_eyebrow }}</span>
+        <h2>{{ s.how_headline }}</h2>
+      </div>
+      <ol class="steps reveal">
+        {%- for i in (1..3) -%}
+          {%- assign tk = 'step_' | append: i | append: '_title' -%}
+          {%- assign bk = 'step_' | append: i | append: '_body' -%}
+          {%- if s[tk] != blank -%}
+            <li class="step">
+              <span class="step-num" aria-hidden="true">0{{ i }}</span>
+              <h3>{{ s[tk] }}</h3>
+              <p>{{ s[bk] }}</p>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ol>
+    </div>
+  </section>
+
+  {%- comment -%} ============ PURCHASE BLOCK ============ {%- endcomment -%}
+  <section class="sec sec-ivory" id="pfb-shop-{{ section.id }}">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">{{ s.pick_eyebrow }}</span>
+        <h2>{{ s.pick_headline }}</h2>
+      </div>
+
+      <div class="pick-grid reveal" role="group" aria-label="Select a size">
+        {%- for v in product.variants -%}
+          <button type="button" class="pick-card" data-variant="{{ v.id }}"
+                  aria-pressed="{% if v.id == cv.id %}true{% else %}false{% endif %}"
+                  {% unless v.available %}disabled{% endunless %}>
+            <span class="pick-check" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="pick-size">{{ v.title }}</span>
+            {%- if v.available == false -%}
+              <span class="pick-tag">Sold out</span>
+            {%- endif -%}
+            {%- if v.compare_at_price > v.price -%}
+              <span class="pick-was">{{ v.compare_at_price | money }}</span>
+            {%- endif -%}
+            <span class="pick-now">{{ v.price | money }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- if s.offer_chips != blank -%}
+        <div class="offer-strip reveal">
+          {%- assign ochips = s.offer_chips | split: ',' -%}
+          {%- for c in ochips -%}
+            <span class="offer-chip">{{ c | strip }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="buy-cta-wide reveal">
+        <button type="submit" name="add" form="pfb-form" class="btn-buy" data-add>
+          <span>{{ s.cta_secondary }}</span>
+          <span class="bprice" data-total>{{ cv.price | money }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ OBJECTIONS ============ {%- endcomment -%}
+  {%- if objection_blocks.size > 0 -%}
+    <section class="sec sec-cream">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">{{ s.obj_eyebrow }}</span>
+          <h2>{{ s.obj_headline }}</h2>
+        </div>
+        <div class="obj-grid reveal">
+          {%- for b in objection_blocks -%}
+            <article class="obj-card" {{ b.shopify_attributes }}>
+              <h3>{{ b.settings.question }}</h3>
+              <p>{{ b.settings.answer }}</p>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ============ FAQ ============ {%- endcomment -%}
+  {%- if faq_blocks.size > 0 -%}
+    <section class="sec sec-ivory">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">{{ s.faq_eyebrow }}</span>
+          <h2>{{ s.faq_headline }}</h2>
+        </div>
+        <div class="faq-list reveal">
+          {%- for b in faq_blocks -%}
+            <div class="faq-item" {{ b.shopify_attributes }}>
+              <button type="button" class="faq-q" aria-expanded="false">
+                {{ b.settings.question }}
+                <span class="faq-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg></span>
+              </button>
+              <div class="faq-a" hidden>{{ b.settings.answer }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ============ FINALE ============ {%- endcomment -%}
+  <section class="finale">
+    <div class="wrap">
+      {%- if img_finale -%}
+        <div class="finale-media reveal">
+          {{ img_finale | image_url: width: 1200 | image_tag:
+               widths: '500,800,1200', sizes: '(max-width: 760px) 100vw, 560px',
+               loading: 'lazy', alt: img_finale.alt | default: product.title }}
+        </div>
+      {%- endif -%}
+
+      <div class="reveal">
+        <span class="eyebrow">{{ s.finale_eyebrow }}</span>
+        <h2>{{ s.finale_h1 }}<span class="l2">{{ s.finale_h2 }}</span></h2>
+
+        <div class="finale-meta">
+          <span><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{ s.rating_score }} customer rating</span>
+          {%- if s.promo_text != blank -%}
+            <span class="sep" aria-hidden="true">/</span><span>{{ s.promo_text }}</span>
+          {%- endif -%}
+          <span class="sep" aria-hidden="true">/</span>
+          <span>Starting at {{ product.price_min | money }}</span>
+        </div>
+
+        <div class="size-opts" role="group" aria-label="Select size">
+          {%- for v in product.variants -%}
+            <button type="button" class="size-opt" data-variant="{{ v.id }}"
+                    aria-pressed="{% if v.id == cv.id %}true{% else %}false{% endif %}"
+                    {% unless v.available %}disabled{% endunless %}>{{ v.title }}</button>
+          {%- endfor -%}
+        </div>
+
+        <div class="buy-cta-wide">
+          <button type="submit" name="add" form="pfb-form" class="btn-buy" data-add>
+            <span>{{ s.cta_finale }}</span>
+            <span class="bprice" data-total>{{ cv.price | money }}</span>
+          </button>
+        </div>
+
+        <ul class="trust-row">
+          {%- for i in (1..2) -%}
+            {%- assign key = 'trust_' | append: i -%}
+            {%- if s[key] != blank -%}
+              <li>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                {{ s[key] }}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ STICKY BAR ============ {%- endcomment -%}
+  {%- if s.show_sticky -%}
+    <div class="sticky-bar" data-sticky>
+      <div class="sticky-inner">
+        <div class="sticky-thumb">
+          {%- if img_hero -%}
+            {{ img_hero | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+          {%- endif -%}
+        </div>
+        <div class="sticky-info">
+          <div class="sticky-name">{{ product.title | default: 'Fresh Body Butter' }}</div>
+          <div class="sticky-price">
+            <b data-price-now>{{ cv.price | money }}</b>
+            {%- if cv.compare_at_price > cv.price -%}
+              <span data-price-was style="text-decoration:line-through;opacity:.6">{{ cv.compare_at_price | money }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="sticky-sizes" role="group" aria-label="Select size">
+          {%- for v in product.variants -%}
+            <button type="button" class="size-opt" data-variant="{{ v.id }}"
+                    aria-pressed="{% if v.id == cv.id %}true{% else %}false{% endif %}"
+                    {% unless v.available %}disabled{% endunless %}>{{ v.title }}</button>
+          {%- endfor -%}
+        </div>
+        <button type="submit" name="add" form="pfb-form" class="btn-buy" data-add>{{ s.cta_sticky }}</button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ============ EMAIL POPUP ============ {%- endcomment -%}
+  {%- if s.show_popup -%}
+    <div class="popup-backdrop" data-popup role="dialog" aria-modal="true" aria-labelledby="pfb-popup-t-{{ section.id }}">
+      <div class="popup-card">
+        <button type="button" class="popup-close" data-popup-close aria-label="Close">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <div class="popup-img">
+          {%- if img_popup -%}
+            {{ img_popup | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}
+          {%- endif -%}
+        </div>
+
+        <div class="popup-body">
+          <div data-popup-form>
+            <span class="eyebrow">{{ s.popup_eyebrow }}</span>
+            <h2 class="popup-headline" id="pfb-popup-t-{{ section.id }}">{{ s.popup_headline }}</h2>
+            <p>{{ s.popup_body }}</p>
+
+            {%- comment -%} Real Shopify customer signup, tagged as newsletter {%- endcomment -%}
+            {%- form 'customer', class: 'popup-form', novalidate: 'novalidate' -%}
+              {%- if form.posted_successfully? -%}{%- assign pfb_posted = true -%}{%- endif -%}
+              <input type="hidden" name="contact[tags]" value="newsletter,fresh-body-butter">
+              <input type="hidden" name="contact[accepts_marketing]" value="true">
+              <input type="email" name="contact[email]" placeholder="your@email.com"
+                     aria-label="Email address" required autocomplete="email">
+              <button type="submit">{{ s.popup_cta }}</button>
+              {%- if form.errors -%}
+                <p class="popup-fine" style="color:#BD5F38">{{ form.errors.messages['email'] }}</p>
+              {%- endif -%}
+            {%- endform -%}
+
+            <button type="button" class="popup-decline" data-popup-close>{{ s.popup_decline }}</button>
+            <p class="popup-fine">No spam. Unsubscribe anytime.</p>
+          </div>
+
+          <div class="popup-success" data-popup-success {% unless pfb_posted %}hidden{% endunless %}>
+            <div class="tick">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>{{ s.popup_success_title }}</h3>
+            <p>{{ s.popup_success_body }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ============ SOCIAL PROOF TOAST ============ {%- endcomment -%}
+  {%- if s.show_toast and s.toast_buyers != blank -%}
+    <div class="sp-toast" data-toast role="status" aria-live="polite">
+      <button type="button" class="sp-close" data-toast-close aria-label="Dismiss">&times;</button>
+      <div class="sp-avatar">
+        {%- if img_hero -%}{{ img_hero | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+      </div>
+      <div class="sp-body">
+        <div class="sp-name" data-toast-name></div>
+        <div class="sp-action">purchased <b>{{ product.title | default: 'Fresh Body Butter' }}</b></div>
+        <div class="sp-ver">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Verified purchase
+        </div>
+      </div>
+      <div class="sp-time" data-toast-time></div>
+    </div>
+  {%- endif -%}
+
+  <script type="application/json" data-pfb-data>
+    {
+      "moneyFormat": {{ shop.money_format | json }},
+      "freeShip": {{ ship_cents }},
+      "productTitle": {{ product.title | default: 'Fresh Body Butter' | json }},
+      "showToast": {{ s.show_toast | json }},
+      "showPopup": {{ s.show_popup | json }},
+      "popupDelay": {{ s.popup_delay | times: 1000 }},
+      "buyers": {{ s.toast_buyers | json }},
+      "variants": [
+        {%- for v in product.variants -%}
+        {
+          "id": {{ v.id }},
+          "title": {{ v.title | json }},
+          "price": {{ v.price }},
+          "compare": {{ v.compare_at_price | default: 0 }},
+          "available": {{ v.available | json }}
+        }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+</div>
+
+{%- if s.enable_faq_schema and faq_blocks.size > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for b in faq_blocks -%}
+    {
+      "@type": "Question",
+      "name": {{ b.settings.question | strip_html | json }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ b.settings.answer | strip_html | json }} }
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}
+
+<script>
+(function () {
+  "use strict";
+
+  var roots = document.querySelectorAll('[data-pfb]');
+  Array.prototype.forEach.call(roots, function (root) {
+    if (root.dataset.pfbInit) return;
+    root.dataset.pfbInit = "1";
+
+    var dataEl = root.querySelector('[data-pfb-data]');
+    if (!dataEl) return;
+    var D;
+    try { D = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!D.variants.length) return;
+
+    /* ---------- analytics ---------- */
+    window.dataLayer = window.dataLayer || [];
+    function track(event, data) {
+      var p = { event: event };
+      for (var k in data) p[k] = data[k];
+      window.dataLayer.push(p);
+    }
+
+    /* ---------- money (Shopify money_format) ---------- */
+    function formatMoney(cents) {
+      var fmt = D.moneyFormat || "${{amount}}";
+      function fmtNum(n, precision, thousands, decimal) {
+        n = (n / 100).toFixed(precision);
+        var parts = n.split(".");
+        var int = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + thousands);
+        return int + (parts[1] ? decimal + parts[1] : "");
+      }
+      return fmt.replace(/\{\{\s*(\w+)\s*\}\}/g, function (_, name) {
+        switch (name) {
+          case "amount": return fmtNum(cents, 2, ",", ".");
+          case "amount_no_decimals": return fmtNum(cents, 0, ",", ".");
+          case "amount_with_comma_separator": return fmtNum(cents, 2, ".", ",");
+          case "amount_no_decimals_with_comma_separator": return fmtNum(cents, 0, ".", ",");
+          case "amount_with_space_separator": return fmtNum(cents, 2, " ", ",");
+          case "amount_no_decimals_with_space_separator": return fmtNum(cents, 0, " ", ",");
+          default: return fmtNum(cents, 2, ",", ".");
+        }
+      });
+    }
+
+    var MAX_QTY = 10;
+    var state = { id: D.variants[0].id, qty: 1 };
+    var pressed = root.querySelector('.size-opt[aria-pressed="true"]');
+    if (pressed && pressed.dataset.variant) state.id = parseInt(pressed.dataset.variant, 10);
+
+    function current() {
+      for (var i = 0; i < D.variants.length; i++) {
+        if (D.variants[i].id === state.id) return D.variants[i];
+      }
+      return D.variants[0];
+    }
+
+    var TICK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+    function render() {
+      var v = current();
+      var total = v.price * state.qty;
+
+      root.querySelectorAll('[data-price-now]').forEach(function (el) { el.textContent = formatMoney(v.price); });
+      root.querySelectorAll('[data-total]').forEach(function (el) { el.textContent = formatMoney(total); });
+
+      root.querySelectorAll('[data-price-was]').forEach(function (el) {
+        if (v.compare > v.price) { el.hidden = false; el.textContent = formatMoney(v.compare); }
+        else { el.hidden = true; }
+      });
+      root.querySelectorAll('[data-price-save]').forEach(function (el) {
+        if (v.compare > v.price) {
+          el.hidden = false;
+          el.textContent = "Save " + Math.round((v.compare - v.price) / v.compare * 100) + "%";
+        } else { el.hidden = true; }
+      });
+
+      root.querySelectorAll('.size-opt, .pick-card').forEach(function (b) {
+        if (!b.dataset.variant) return;
+        b.setAttribute('aria-pressed', String(parseInt(b.dataset.variant, 10) === state.id));
+      });
+
+      root.querySelectorAll('[data-variant-input]').forEach(function (i) { i.value = state.id; });
+      root.querySelectorAll('[data-qty-input]').forEach(function (i) { i.value = state.qty; });
+      root.querySelectorAll('[data-qty-val]').forEach(function (el) { el.textContent = state.qty; });
+
+      root.querySelectorAll('.qty-stepper button').forEach(function (b) {
+        var d = parseInt(b.dataset.qty, 10);
+        b.disabled = (d < 0 && state.qty <= 1) || (d > 0 && state.qty >= MAX_QTY);
+      });
+
+      root.querySelectorAll('[data-add]').forEach(function (b) {
+        b.disabled = !v.available;
+        var lab = b.querySelector('[data-add-label]');
+        if (lab && !v.available) lab.textContent = "Sold out";
+      });
+
+      var fill = root.querySelector('[data-ship-fill]');
+      var note = root.querySelector('[data-ship-note]');
+      if (fill && note && D.freeShip > 0) {
+        fill.style.width = Math.min(100, total / D.freeShip * 100) + "%";
+        if (total >= D.freeShip) {
+          note.className = "ship-note done";
+          note.innerHTML = TICK + " Nice. Your order ships free.";
+        } else {
+          note.className = "ship-note";
+          note.innerHTML = "You are <b>" + formatMoney(D.freeShip - total) +
+            '</b> from free shipping. <button type="button" class="ship-add" data-addjar>Add another jar</button>';
+        }
+      }
+    }
+
+    function setVariant(id) {
+      if (id === state.id) return;
+      state.id = id;
+      render();
+      var v = current();
+      track("select_size", { size: v.title, price: v.price / 100 });
+    }
+
+    function setQty(n) {
+      var next = Math.min(MAX_QTY, Math.max(1, n));
+      if (next === state.qty) return;
+      state.qty = next;
+      render();
+      track("change_quantity", { quantity: next });
+    }
+
+    root.addEventListener('click', function (e) {
+      var opt = e.target.closest('.size-opt[data-variant], .pick-card[data-variant]');
+      if (opt) { setVariant(parseInt(opt.dataset.variant, 10)); return; }
+
+      var step = e.target.closest('.qty-stepper button');
+      if (step) { setQty(state.qty + parseInt(step.dataset.qty, 10)); return; }
+
+      if (e.target.closest('[data-addjar]')) { setQty(state.qty + 1); return; }
+
+      if (e.target.closest('[data-add]')) {
+        var v = current();
+        track("add_to_cart", {
+          currency: "{{ shop.currency }}",
+          value: (v.price * state.qty) / 100,
+          items: [{
+            item_name: D.productTitle, item_variant: v.title,
+            variant_id: String(v.id), price: v.price / 100, quantity: state.qty
+          }]
+        });
+        return;
+      }
+
+      var faq = e.target.closest('.faq-q');
+      if (faq) {
+        var open = faq.getAttribute('aria-expanded') === 'true';
+        faq.setAttribute('aria-expanded', String(!open));
+        faq.nextElementSibling.hidden = open;
+        if (!open) track("faq_open", { question: faq.textContent.trim() });
+      }
+    });
+
+    render();
+
+    /* ---------- sticky bar ---------- */
+    var bar = root.querySelector('[data-sticky]');
+    var anchor = root.querySelector('#pfb-buyunit-{{ section.id }} [data-add]');
+    if (bar && anchor && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        var on = !entries[0].isIntersecting;
+        bar.classList.toggle('show', on);
+        root.classList.toggle('bar-on', on);
+      }, { rootMargin: "-80px 0px 0px 0px" }).observe(anchor);
+    }
+
+    /* ---------- scroll reveal ---------- */
+    var reveals = root.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var ro = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); ro.unobserve(en.target); }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+      reveals.forEach(function (el) { ro.observe(el); });
+    } else {
+      reveals.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* ---------- popup ---------- */
+    var popup = root.querySelector('[data-popup]');
+    if (popup && D.showPopup) {
+      var KEY = "pfb_popup_" + "{{ section.id }}";
+      var shown = false;
+      var posted = !root.querySelector('[data-popup-success]').hidden;
+
+      function seen() { try { return sessionStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
+      function mark() { try { sessionStorage.setItem(KEY, "1"); } catch (e) {} }
+      function close() { popup.classList.remove('open'); mark(); }
+      function open() {
+        if (shown || seen()) return;
+        shown = true;
+        popup.classList.add('open');
+        track("popup_shown", {});
+      }
+
+      if (posted) {
+        // Shopify redirected back after a successful signup
+        var formView = root.querySelector('[data-popup-form]');
+        if (formView) formView.hidden = true;
+        popup.classList.add('open');
+        mark();
+        track("newsletter_signup", { method: "exit_popup" });
+        setTimeout(function () { popup.classList.remove('open'); }, 4500);
+      } else if (!seen()) {
+        setTimeout(open, D.popupDelay || 15000);
+        var onScroll = function () {
+          var max = Math.max(1, document.body.scrollHeight - window.innerHeight);
+          if (window.scrollY / max > 0.35) { open(); window.removeEventListener('scroll', onScroll); }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+      }
+
+      popup.addEventListener('click', function (e) {
+        if (e.target === popup || e.target.closest('[data-popup-close]')) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === "Escape" && popup.classList.contains('open')) close();
+      });
+    }
+
+    /* ---------- social proof toast ---------- */
+    var toast = root.querySelector('[data-toast]');
+    if (toast && D.showToast && D.buyers) {
+      var LIST = D.buyers.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+      var TIMES = ["12 min ago", "34 min ago", "1 hr ago", "2 hrs ago", "3 hrs ago", "5 hrs ago"];
+      var nameEl = toast.querySelector('[data-toast-name]');
+      var timeEl = toast.querySelector('[data-toast-time]');
+      var idx = Math.floor(Math.random() * Math.max(1, LIST.length));
+      var killed = false, timer = null;
+
+      toast.querySelector('[data-toast-close]').addEventListener('click', function () {
+        killed = true;
+        toast.classList.remove('show');
+        if (timer) clearInterval(timer);
+      });
+
+      function show() {
+        if (killed || !LIST.length) return;
+        if (popup && popup.classList.contains('open')) return;
+        nameEl.textContent = LIST[idx % LIST.length];
+        idx++;
+        timeEl.textContent = TIMES[Math.floor(Math.random() * TIMES.length)];
+        toast.classList.add('show');
+        setTimeout(function () { toast.classList.remove('show'); }, 4600);
+      }
+
+      setTimeout(function () { show(); timer = setInterval(show, 11000); }, 7000);
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Fresh Body Butter page",
+  "tag": "section",
+  "class": "pfb-section",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating line", "default": true },
+    { "type": "text", "id": "rating_text", "label": "Rating line", "default": "5.0 from verified customers" },
+    { "type": "text", "id": "headline_1", "label": "Headline line 1", "default": "Soft skin." },
+    { "type": "text", "id": "headline_2", "label": "Headline line 2 (italic)", "default": "All day." },
+    { "type": "textarea", "id": "hero_sub", "label": "Hero subcopy", "default": "Rich, whipped hydration that melts into your skin without leaving you greasy. Dry, dull skin gets the deep moisture it has been asking for." },
+    { "type": "text", "id": "promo_text", "label": "Promo pill", "default": "15% off + free gift" },
+    { "type": "text", "id": "size_label", "label": "Size label", "default": "Choose your size" },
+    { "type": "text", "id": "cta_primary", "label": "Primary CTA", "default": "Add to cart" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "float_quote", "label": "Floating review quote", "default": "\"Rich texture but not greasy.\"" },
+    { "type": "text", "id": "float_author", "label": "Floating review author", "default": "Joshua" },
+
+    { "type": "header", "content": "Offer and trust" },
+    { "type": "checkbox", "id": "show_ship_meter", "label": "Show free shipping meter", "default": true },
+    { "type": "number", "id": "free_ship_threshold", "label": "Free shipping threshold (whole currency units)", "default": 35 },
+    { "type": "text", "id": "trust_1", "label": "Trust point 1", "default": "Free shipping over $35" },
+    { "type": "text", "id": "trust_2", "label": "Trust point 2", "default": "Secure checkout" },
+    { "type": "text", "id": "trust_3", "label": "Trust point 3", "default": "Small-batch body care" },
+    { "type": "text", "id": "offer_chips", "label": "Offer chips (comma separated)", "default": "15% off, Free gift with every order, Free shipping over $35" },
+
+    { "type": "header", "content": "Benefit strip" },
+    { "type": "text", "id": "strip_1", "label": "Strip item 1", "default": "Long-lasting moisture" },
+    { "type": "text", "id": "strip_2", "label": "Strip item 2", "default": "Non-greasy finish" },
+    { "type": "text", "id": "strip_3", "label": "Strip item 3", "default": "Soft + smooth skin" },
+    { "type": "text", "id": "strip_4", "label": "Strip item 4", "default": "Made for dry skin" },
+
+    { "type": "header", "content": "Problem section" },
+    { "type": "text", "id": "problem_eyebrow", "label": "Eyebrow", "default": "You know the feeling" },
+    { "type": "text", "id": "problem_headline", "label": "Headline", "default": "Moisturized at 8am. Ashy again by noon." },
+    { "type": "textarea", "id": "problem_body_1", "label": "Paragraph 1", "default": "Your moisturizer should not disappear before your day is halfway over. Most lotions sit on the surface and evaporate off, leaving skin tight and dull again by lunch." },
+    { "type": "textarea", "id": "problem_body_2", "label": "Paragraph 2", "default": "Fresh Body Butter is thicker by design. It creates a rich moisture barrier that helps your skin stay soft, comfortable and hydrated for hours on a single application." },
+    { "type": "text", "id": "compare_before", "label": "Compare, before", "default": "Thin lotion, reapplied three times a day" },
+    { "type": "text", "id": "compare_after", "label": "Compare, after", "default": "One scoop after your shower, soft all day" },
+    { "type": "image_picker", "id": "problem_image", "label": "Problem image" },
+
+    { "type": "header", "content": "Texture section" },
+    { "type": "text", "id": "texture_eyebrow", "label": "Eyebrow", "default": "The texture" },
+    { "type": "text", "id": "texture_h1", "label": "Headline line 1", "default": "Thick in the jar." },
+    { "type": "text", "id": "texture_h2", "label": "Headline line 2 (italic)", "default": "Light on your skin." },
+    { "type": "textarea", "id": "texture_body", "label": "Body", "default": "A rich, velvety butter that melts with the warmth of your hands and absorbs without leaving that heavy, sticky feeling behind." },
+    { "type": "text", "id": "texture_point_1", "label": "Point 1", "default": "Melts on contact" },
+    { "type": "text", "id": "texture_point_2", "label": "Point 2", "default": "Absorbs beautifully" },
+    { "type": "text", "id": "texture_point_3", "label": "Point 3", "default": "Leaves skin soft, not slippery" },
+    { "type": "image_picker", "id": "texture_image", "label": "Texture image" },
+
+    { "type": "header", "content": "Benefits" },
+    { "type": "text", "id": "benefits_eyebrow", "label": "Eyebrow", "default": "The difference" },
+    { "type": "text", "id": "benefits_headline", "label": "Headline", "default": "Why your skin will love it" },
+
+    { "type": "header", "content": "Scent section" },
+    { "type": "text", "id": "scent_eyebrow", "label": "Eyebrow", "default": "The scent" },
+    { "type": "text", "id": "scent_headline", "label": "Headline", "default": "Clean citrus. Nothing overpowering." },
+    { "type": "textarea", "id": "scent_body", "label": "Body", "default": "A refreshing, spa-like citrus scent that wakes up your skin without announcing it to the room. Customers describe it as clean, energizing and easy to wear every day. Good for men and women." },
+    { "type": "text", "id": "scent_chips", "label": "Scent chips (comma separated)", "default": "Fresh citrus, Clean & light, Energizing, Gender neutral" },
+    { "type": "image_picker", "id": "scent_image", "label": "Scent image" },
+
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Eyebrow", "default": "Social proof" },
+    { "type": "text", "id": "reviews_headline", "label": "Headline", "default": "Don't take our word for it." },
+    { "type": "text", "id": "rating_score", "label": "Score", "default": "5.0" },
+    { "type": "text", "id": "rating_count_text", "label": "Review count line", "default": "Based on 6 verified reviews" },
+
+    { "type": "header", "content": "Showcase band" },
+    { "type": "text", "id": "band_eyebrow", "label": "Eyebrow", "default": "The product" },
+    { "type": "text", "id": "band_headline", "label": "Headline", "default": "Meet your new bathroom-shelf favorite." },
+    { "type": "image_picker", "id": "band_image", "label": "Band image" },
+
+    { "type": "header", "content": "How to use" },
+    { "type": "text", "id": "how_eyebrow", "label": "Eyebrow", "default": "How to use" },
+    { "type": "text", "id": "how_headline", "label": "Headline", "default": "Your 60-second soft-skin routine." },
+    { "type": "text", "id": "step_1_title", "label": "Step 1 title", "default": "Shower" },
+    { "type": "textarea", "id": "step_1_body", "label": "Step 1 body", "default": "Cleanse as normal and leave your skin slightly damp. Do not pat fully dry. This is when skin is most ready to absorb." },
+    { "type": "text", "id": "step_2_title", "label": "Step 2 title", "default": "Melt" },
+    { "type": "textarea", "id": "step_2_body", "label": "Step 2 body", "default": "Warm a small amount between your hands and massage it into the skin in circular motions. Focus on knees, elbows and anywhere that dries out fast." },
+    { "type": "text", "id": "step_3_title", "label": "Step 3 title", "default": "Glow" },
+    { "type": "textarea", "id": "step_3_body", "label": "Step 3 body", "default": "Give it a moment to absorb, then get dressed and go. No waiting around, no transfer onto your clothes." },
+
+    { "type": "header", "content": "Purchase block" },
+    { "type": "text", "id": "pick_eyebrow", "label": "Eyebrow", "default": "Pick your jar" },
+    { "type": "text", "id": "pick_headline", "label": "Headline", "default": "How much soft skin do you need?" },
+    { "type": "text", "id": "cta_secondary", "label": "CTA label", "default": "Yes, I want softer skin" },
+
+    { "type": "header", "content": "Objections" },
+    { "type": "text", "id": "obj_eyebrow", "label": "Eyebrow", "default": "Straight answers" },
+    { "type": "text", "id": "obj_headline", "label": "Headline", "default": "But will it feel greasy?" },
+
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_eyebrow", "label": "Eyebrow", "default": "Questions & answers" },
+    { "type": "text", "id": "faq_headline", "label": "Headline", "default": "Everything you need to know" },
+    { "type": "checkbox", "id": "enable_faq_schema", "label": "Output FAQ structured data", "default": true, "info": "Only enable on one section per page." },
+
+    { "type": "header", "content": "Closing section" },
+    { "type": "text", "id": "finale_eyebrow", "label": "Eyebrow", "default": "Your skin has waited long enough" },
+    { "type": "text", "id": "finale_h1", "label": "Headline line 1", "default": "Make soft skin" },
+    { "type": "text", "id": "finale_h2", "label": "Headline line 2 (italic)", "default": "your everyday thing." },
+    { "type": "text", "id": "cta_finale", "label": "CTA label", "default": "Get Fresh Body Butter" },
+    { "type": "image_picker", "id": "finale_image", "label": "Closing image" },
+
+    { "type": "header", "content": "Sticky bar" },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky purchase bar", "default": true },
+    { "type": "text", "id": "cta_sticky", "label": "Sticky CTA label", "default": "Add to cart" },
+
+    { "type": "header", "content": "Email popup" },
+    { "type": "checkbox", "id": "show_popup", "label": "Show email popup", "default": true },
+    { "type": "range", "id": "popup_delay", "label": "Delay before popup", "unit": "s", "min": 3, "max": 60, "step": 1, "default": 15 },
+    { "type": "text", "id": "popup_eyebrow", "label": "Eyebrow", "default": "Before you scroll on" },
+    { "type": "text", "id": "popup_headline", "label": "Headline", "default": "Your 15% off is already applied." },
+    { "type": "textarea", "id": "popup_body", "label": "Body", "default": "No code to hunt for, it is built into every price on this page. Leave your email and you will hear first when a new scent drops." },
+    { "type": "text", "id": "popup_cta", "label": "Submit label", "default": "Keep me posted" },
+    { "type": "text", "id": "popup_decline", "label": "Decline label", "default": "No thanks, I like dry skin" },
+    { "type": "text", "id": "popup_success_title", "label": "Success title", "default": "You're on the list." },
+    { "type": "textarea", "id": "popup_success_body", "label": "Success body", "default": "We will let you know the moment a new scent lands. Your 15% off and free gift are already waiting at checkout." },
+    { "type": "image_picker", "id": "popup_image", "label": "Popup image" },
+
+    { "type": "header", "content": "Social proof toast" },
+    { "type": "checkbox", "id": "show_toast", "label": "Show purchase notifications", "default": true },
+    { "type": "textarea", "id": "toast_buyers", "label": "Buyers, one per line", "default": "Jane from Charleston, SC\nMaya from Atlanta, GA\nTasha from Houston, TX\nBrianna from Chicago, IL\nMarcus from Detroit, MI\nAlicia from Miami, FL\nDanielle from Philadelphia, PA\nJordan from Phoenix, AZ\nNicole from Charlotte, NC\nKevin from Oakland, CA\nSimone from Baltimore, MD\nRachel from Nashville, TN\nAndre from Newark, NJ\nLatoya from Memphis, TN\nPriya from Columbus, OH\nChloe from Portland, OR" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Moisture that lasts" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Rich hydration helps keep skin feeling soft for hours." },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "\"Rich texture but not greasy.\"" },
+        { "type": "text", "id": "author", "label": "Author", "default": "Joshua" }
+      ]
+    },
+    {
+      "type": "objection",
+      "name": "Objection",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Will it leave my skin oily?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "No. Apply it to slightly damp skin right after your shower and it absorbs in rather than sitting on top." }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What does Fresh Body Butter smell like?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>A clean, refreshing citrus scent.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Fresh Body Butter page" }]
+}
+{% endschema %}

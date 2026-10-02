@@ -1,23 +1,239 @@
 {
   "sections": {
     "main": {
-      "type": "product-fresh-body-butter",
+      "type": "pfb-body-butter",
+      "blocks": {
+        "ben1": {
+          "type": "benefit",
+          "settings": {
+            "title": "Moisture that lasts",
+            "body": "Rich hydration helps keep skin feeling soft for hours, so you are not chasing dryness all afternoon."
+          }
+        },
+        "ben2": {
+          "type": "benefit",
+          "settings": {
+            "title": "The glow without the grease",
+            "body": "Leaves skin looking moisturized and healthy without a slick finish or shine you have to blot away."
+          }
+        },
+        "ben3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Get dressed without waiting",
+            "body": "Designed to absorb quickly so your clothes do not have to wait on your moisturizer. No transfer, no stickiness."
+          }
+        },
+        "ben4": {
+          "type": "benefit",
+          "settings": {
+            "title": "Dry-skin territory welcome",
+            "body": "Give extra attention to elbows, knees, legs and anywhere else that tends to feel rough and go dull fast."
+          }
+        },
+
+        "rev1": {
+          "type": "review",
+          "settings": {
+            "quote": "\"Velvety skin feel, perfect citrus scent. Genuinely surprised by how well it works.\"",
+            "author": "Kayla"
+          }
+        },
+        "rev2": {
+          "type": "review",
+          "settings": {
+            "quote": "\"Rich texture but not greasy. Finally a butter that actually absorbs into the skin.\"",
+            "author": "Joshua"
+          }
+        },
+        "rev3": {
+          "type": "review",
+          "settings": {
+            "quote": "\"Energizing spa-like scent. I put it on every single morning now.\"",
+            "author": "Amanda"
+          }
+        },
+        "rev4": {
+          "type": "review",
+          "settings": {
+            "quote": "\"Fresh clean scent, good for men too. Not overpowering at all.\"",
+            "author": "Matt"
+          }
+        },
+        "rev5": {
+          "type": "review",
+          "settings": {
+            "quote": "\"I am loving this body butter. So happy I found it.\"",
+            "author": "Shirley T."
+          }
+        },
+
+        "obj1": {
+          "type": "objection",
+          "settings": {
+            "question": "Will it leave my skin oily?",
+            "answer": "No. Apply it to slightly damp skin right after your shower and it absorbs in rather than sitting on top. Customers consistently report getting dressed within a minute with no transfer onto clothing."
+          }
+        },
+        "obj2": {
+          "type": "objection",
+          "settings": {
+            "question": "Can I use it every day?",
+            "answer": "Yes. It is made for daily body use, morning or night. A small amount goes a long way, so one jar stretches further than the size suggests."
+          }
+        },
+        "obj3": {
+          "type": "objection",
+          "settings": {
+            "question": "Where should I use it?",
+            "answer": "Anywhere on the body that needs it. Arms, legs, elbows, knees and any area that tends to feel rough or look dull between showers."
+          }
+        },
+
+        "faq1": {
+          "type": "faq",
+          "settings": {
+            "question": "What does Fresh Body Butter smell like?",
+            "answer": "<p>A clean, refreshing citrus scent. Customers describe it as spa-like and energizing rather than sweet or heavy. It is gender neutral and light enough to wear every day without clashing with your fragrance.</p>"
+          }
+        },
+        "faq2": {
+          "type": "faq",
+          "settings": {
+            "question": "Which size of body butter should I choose?",
+            "answer": "<p>The 3 oz jar is the easiest way to try it. The 5 oz is the common everyday choice for regular full-body use, and the 8 oz is for anyone already committed or sharing a jar at home. With daily full-body use, expect roughly 3 to 4 weeks from the 3 oz, 5 to 6 weeks from the 5 oz, and 8 to 10 weeks from the 8 oz.</p>"
+          }
+        },
+        "faq3": {
+          "type": "faq",
+          "settings": {
+            "question": "Is Fresh Body Butter suitable for all skin types?",
+            "answer": "<p>It works across skin types but was formulated with dry, dull and ashy skin in mind. If your skin is sensitive, do a small patch test first.</p>"
+          }
+        },
+        "faq4": {
+          "type": "faq",
+          "settings": {
+            "question": "When should I apply body butter?",
+            "answer": "<p>Right after your shower while your skin is still slightly damp. That is when it absorbs best. Many customers also use it at night on elbows, knees and feet.</p>"
+          }
+        },
+        "faq5": {
+          "type": "faq",
+          "settings": {
+            "question": "Can men use Fresh Body Butter?",
+            "answer": "<p>Yes. The citrus scent is clean and gender neutral, and verified male customers have specifically called out that it is not overpowering. It absorbs fast, which tends to be the deciding factor over heavier creams.</p>"
+          }
+        },
+        "faq6": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the 15% off and free shipping work?",
+            "answer": "<p>The 15% discount is already reflected in the prices shown on this page, so there is no code to enter. A free gift is included with every order, and shipping is free on orders over $35.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ben1", "ben2", "ben3", "ben4",
+        "rev1", "rev2", "rev3", "rev4", "rev5",
+        "obj1", "obj2", "obj3",
+        "faq1", "faq2", "faq3", "faq4", "faq5", "faq6"
+      ],
       "settings": {
-        "hero_headline": "Soft skin\nthat stays soft\nall day long.",
-        "hero_subheadline": "Rich hydration that melts in, not on. No white cast, no greasy finish. Just the kind of skin you stop to notice in the mirror.",
-        "offer_label": "15% Off",
-        "offer_text": "+ Free gift with every order",
-        "problem_headline": "Moisturized at 8am. Ashy by noon.",
-        "problem_body": "Most body butters sit on top of your skin, not inside it. Within hours, your skin drinks through whatever thin layer was left and you are back to dry, tight, and dull. You deserve better than reapplying three times a day.",
-        "benefits_headline": "Formulated to do more than feel good",
-        "benefit_1_title": "Locks in hydration all day",
-        "benefit_1_body": "A rich butter base seals moisture at the skin level instead of evaporating off the surface. One application, hours of softness.",
-        "benefit_2_title": "Smooth, glowing finish",
-        "benefit_2_body": "Skin looks visibly softer and more even-toned after the first use. The kind of glow that makes people ask what you have been doing differently.",
-        "benefit_3_title": "Lightweight, non-greasy",
-        "benefit_3_body": "Dense without being heavy. Absorbs quickly enough to get dressed right after. No transfer on your clothes, no slippery feel on your hands.",
-        "benefit_4_title": "Built for dry and ashy skin",
-        "benefit_4_body": "Formulated specifically for skin that tends to go dull fast. Works on elbows, knees, and anywhere else that needs serious attention."
+        "show_rating": true,
+        "rating_text": "5.0 from verified customers",
+        "headline_1": "Soft skin.",
+        "headline_2": "All day.",
+        "hero_sub": "Rich, whipped hydration that melts into your skin without leaving you greasy. Dry, dull skin gets the deep moisture it has been asking for.",
+        "promo_text": "15% off + free gift",
+        "size_label": "Choose your size",
+        "cta_primary": "Add to cart",
+        "float_quote": "\"Rich texture but not greasy.\"",
+        "float_author": "Joshua",
+
+        "show_ship_meter": true,
+        "free_ship_threshold": 35,
+        "trust_1": "Free shipping over $35",
+        "trust_2": "Secure checkout",
+        "trust_3": "Small-batch body care",
+        "offer_chips": "15% off, Free gift with every order, Free shipping over $35",
+
+        "strip_1": "Long-lasting moisture",
+        "strip_2": "Non-greasy finish",
+        "strip_3": "Soft + smooth skin",
+        "strip_4": "Made for dry skin",
+
+        "problem_eyebrow": "You know the feeling",
+        "problem_headline": "Moisturized at 8am. Ashy again by noon.",
+        "problem_body_1": "Your moisturizer should not disappear before your day is halfway over. Most lotions sit on the surface and evaporate off, leaving skin tight and dull again by lunch.",
+        "problem_body_2": "Fresh Body Butter is thicker by design. It creates a rich moisture barrier that helps your skin stay soft, comfortable and hydrated for hours on a single application.",
+        "compare_before": "Thin lotion, reapplied three times a day",
+        "compare_after": "One scoop after your shower, soft all day",
+
+        "texture_eyebrow": "The texture",
+        "texture_h1": "Thick in the jar.",
+        "texture_h2": "Light on your skin.",
+        "texture_body": "A rich, velvety butter that melts with the warmth of your hands and absorbs without leaving that heavy, sticky feeling behind.",
+        "texture_point_1": "Melts on contact",
+        "texture_point_2": "Absorbs beautifully",
+        "texture_point_3": "Leaves skin soft, not slippery",
+
+        "benefits_eyebrow": "The difference",
+        "benefits_headline": "Why your skin will love it",
+
+        "scent_eyebrow": "The scent",
+        "scent_headline": "Clean citrus. Nothing overpowering.",
+        "scent_body": "A refreshing, spa-like citrus scent that wakes up your skin without announcing it to the room. Customers describe it as clean, energizing and easy to wear every day. Good for men and women.",
+        "scent_chips": "Fresh citrus, Clean & light, Energizing, Gender neutral",
+
+        "reviews_eyebrow": "Social proof",
+        "reviews_headline": "Don't take our word for it.",
+        "rating_score": "5.0",
+        "rating_count_text": "Based on 6 verified reviews",
+
+        "band_eyebrow": "The product",
+        "band_headline": "Meet your new bathroom-shelf favorite.",
+
+        "how_eyebrow": "How to use",
+        "how_headline": "Your 60-second soft-skin routine.",
+        "step_1_title": "Shower",
+        "step_1_body": "Cleanse as normal and leave your skin slightly damp. Do not pat fully dry. This is when skin is most ready to absorb.",
+        "step_2_title": "Melt",
+        "step_2_body": "Warm a small amount between your hands and massage it into the skin in circular motions. Focus on knees, elbows and anywhere that dries out fast.",
+        "step_3_title": "Glow",
+        "step_3_body": "Give it a moment to absorb, then get dressed and go. No waiting around, no transfer onto your clothes.",
+
+        "pick_eyebrow": "Pick your jar",
+        "pick_headline": "How much soft skin do you need?",
+        "cta_secondary": "Yes, I want softer skin",
+
+        "obj_eyebrow": "Straight answers",
+        "obj_headline": "But will it feel greasy?",
+
+        "faq_eyebrow": "Questions & answers",
+        "faq_headline": "Everything you need to know",
+        "enable_faq_schema": true,
+
+        "finale_eyebrow": "Your skin has waited long enough",
+        "finale_h1": "Make soft skin",
+        "finale_h2": "your everyday thing.",
+        "cta_finale": "Get Fresh Body Butter",
+
+        "show_sticky": true,
+        "cta_sticky": "Add to cart",
+
+        "show_popup": true,
+        "popup_delay": 15,
+        "popup_eyebrow": "Before you scroll on",
+        "popup_headline": "Your 15% off is already applied.",
+        "popup_body": "No code to hunt for, it is built into every price on this page. Leave your email and you will hear first when a new scent drops.",
+        "popup_cta": "Keep me posted",
+        "popup_decline": "No thanks, I like dry skin",
+        "popup_success_title": "You're on the list.",
+        "popup_success_body": "We will let you know the moment a new scent lands. Your 15% off and free gift are already waiting at checkout.",
+
+        "show_toast": true,
+        "toast_buyers": "Jane from Charleston, SC\nMaya from Atlanta, GA\nTasha from Houston, TX\nBrianna from Chicago, IL\nMarcus from Detroit, MI\nAlicia from Miami, FL\nDanielle from Philadelphia, PA\nJordan from Phoenix, AZ\nNicole from Charlotte, NC\nKevin from Oakland, CA\nSimone from Baltimore, MD\nRachel from Nashville, TN\nAndre from Newark, NJ\nLatoya from Memphis, TN\nPriya from Columbus, OH\nChloe from Portland, OR"
       }
     }
   },
