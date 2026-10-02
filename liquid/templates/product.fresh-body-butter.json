@@ -31,7 +31,6 @@
             "body": "Give extra attention to elbows, knees, legs and anywhere else that tends to feel rough and go dull fast."
           }
         },
-
         "rev1": {
           "type": "review",
           "settings": {
@@ -67,7 +66,6 @@
             "author": "Shirley T."
           }
         },
-
         "obj1": {
           "type": "objection",
           "settings": {
@@ -89,7 +87,6 @@
             "answer": "Anywhere on the body that needs it. Arms, legs, elbows, knees and any area that tends to feel rough or look dull between showers."
           }
         },
-
         "faq1": {
           "type": "faq",
           "settings": {
@@ -134,10 +131,24 @@
         }
       },
       "block_order": [
-        "ben1", "ben2", "ben3", "ben4",
-        "rev1", "rev2", "rev3", "rev4", "rev5",
-        "obj1", "obj2", "obj3",
-        "faq1", "faq2", "faq3", "faq4", "faq5", "faq6"
+        "ben1",
+        "ben2",
+        "ben3",
+        "ben4",
+        "rev1",
+        "rev2",
+        "rev3",
+        "rev4",
+        "rev5",
+        "obj1",
+        "obj2",
+        "obj3",
+        "faq1",
+        "faq2",
+        "faq3",
+        "faq4",
+        "faq5",
+        "faq6"
       ],
       "settings": {
         "show_rating": true,
@@ -148,28 +159,22 @@
         "promo_text": "15% off + free gift",
         "size_label": "Choose your size",
         "cta_primary": "Add to cart",
-        "float_quote": "\"Rich texture but not greasy.\"",
-        "float_author": "Joshua",
-
         "show_ship_meter": true,
         "free_ship_threshold": 35,
         "trust_1": "Free shipping over $35",
         "trust_2": "Secure checkout",
         "trust_3": "Small-batch body care",
         "offer_chips": "15% off, Free gift with every order, Free shipping over $35",
-
         "strip_1": "Long-lasting moisture",
         "strip_2": "Non-greasy finish",
         "strip_3": "Soft + smooth skin",
         "strip_4": "Made for dry skin",
-
         "problem_eyebrow": "You know the feeling",
         "problem_headline": "Moisturized at 8am. Ashy again by noon.",
         "problem_body_1": "Your moisturizer should not disappear before your day is halfway over. Most lotions sit on the surface and evaporate off, leaving skin tight and dull again by lunch.",
         "problem_body_2": "Fresh Body Butter is thicker by design. It creates a rich moisture barrier that helps your skin stay soft, comfortable and hydrated for hours on a single application.",
         "compare_before": "Thin lotion, reapplied three times a day",
         "compare_after": "One scoop after your shower, soft all day",
-
         "texture_eyebrow": "The texture",
         "texture_h1": "Thick in the jar.",
         "texture_h2": "Light on your skin.",
@@ -177,23 +182,18 @@
         "texture_point_1": "Melts on contact",
         "texture_point_2": "Absorbs beautifully",
         "texture_point_3": "Leaves skin soft, not slippery",
-
         "benefits_eyebrow": "The difference",
         "benefits_headline": "Why your skin will love it",
-
         "scent_eyebrow": "The scent",
         "scent_headline": "Clean citrus. Nothing overpowering.",
         "scent_body": "A refreshing, spa-like citrus scent that wakes up your skin without announcing it to the room. Customers describe it as clean, energizing and easy to wear every day. Good for men and women.",
         "scent_chips": "Fresh citrus, Clean & light, Energizing, Gender neutral",
-
         "reviews_eyebrow": "Social proof",
         "reviews_headline": "Don't take our word for it.",
         "rating_score": "5.0",
         "rating_count_text": "Based on 6 verified reviews",
-
         "band_eyebrow": "The product",
         "band_headline": "Meet your new bathroom-shelf favorite.",
-
         "how_eyebrow": "How to use",
         "how_headline": "Your 60-second soft-skin routine.",
         "step_1_title": "Shower",
@@ -202,26 +202,20 @@
         "step_2_body": "Warm a small amount between your hands and massage it into the skin in circular motions. Focus on knees, elbows and anywhere that dries out fast.",
         "step_3_title": "Glow",
         "step_3_body": "Give it a moment to absorb, then get dressed and go. No waiting around, no transfer onto your clothes.",
-
         "pick_eyebrow": "Pick your jar",
         "pick_headline": "How much soft skin do you need?",
         "cta_secondary": "Yes, I want softer skin",
-
         "obj_eyebrow": "Straight answers",
         "obj_headline": "But will it feel greasy?",
-
         "faq_eyebrow": "Questions & answers",
         "faq_headline": "Everything you need to know",
         "enable_faq_schema": true,
-
         "finale_eyebrow": "Your skin has waited long enough",
         "finale_h1": "Make soft skin",
         "finale_h2": "your everyday thing.",
         "cta_finale": "Get Fresh Body Butter",
-
         "show_sticky": true,
         "cta_sticky": "Add to cart",
-
         "show_popup": true,
         "popup_delay": 15,
         "popup_eyebrow": "Before you scroll on",
@@ -231,11 +225,12 @@
         "popup_decline": "No thanks, I like dry skin",
         "popup_success_title": "You're on the list.",
         "popup_success_body": "We will let you know the moment a new scent lands. Your 15% off and free gift are already waiting at checkout.",
-
         "show_toast": true,
         "toast_buyers": "Jane from Charleston, SC\nMaya from Atlanta, GA\nTasha from Houston, TX\nBrianna from Chicago, IL\nMarcus from Detroit, MI\nAlicia from Miami, FL\nDanielle from Philadelphia, PA\nJordan from Phoenix, AZ\nNicole from Charlotte, NC\nKevin from Oakland, CA\nSimone from Baltimore, MD\nRachel from Nashville, TN\nAndre from Newark, NJ\nLatoya from Memphis, TN\nPriya from Columbus, OH\nChloe from Portland, OR"
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

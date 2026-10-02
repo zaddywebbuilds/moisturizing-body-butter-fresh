@@ -155,13 +155,6 @@
           {%- endif -%}
         </div>
 
-        {%- if s.float_quote != blank -%}
-          <figure class="float-review">
-            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            <blockquote>{{ s.float_quote }}</blockquote>
-            <cite>{{ s.float_author }}<span class="vb">, verified buyer</span></cite>
-          </figure>
-        {%- endif -%}
       </div>
 
     </div>
@@ -991,8 +984,6 @@
     { "type": "video", "id": "hero_video", "label": "Hero video", "info": "Autoplays muted and loops. Takes priority over the hero image." },
     { "type": "text", "id": "hero_video_alt", "label": "Hero video description", "default": "A customer holding a jar of Fresh Body Butter in her bathroom after a shower" },
     { "type": "textarea", "id": "caption_words", "label": "Hero video captions", "info": "One word per line as word|seconds, e.g. Okay,|7.6 — each word appears as it is spoken.", "default": "Okay,|7.6\nthis|8.5\nfeels|8.8\nso|9.02\ngood.|9.36" },
-    { "type": "text", "id": "float_quote", "label": "Floating review quote", "default": "\"Rich texture but not greasy.\"" },
-    { "type": "text", "id": "float_author", "label": "Floating review author", "default": "Joshua" },
 
     { "type": "header", "content": "Offer and trust" },
     { "type": "checkbox", "id": "show_ship_meter", "label": "Show free shipping meter", "default": true },
