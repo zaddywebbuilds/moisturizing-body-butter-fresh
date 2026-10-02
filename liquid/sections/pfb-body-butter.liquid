@@ -261,6 +261,45 @@
     </section>
   {%- endif -%}
 
+  {%- comment -%} ============ INGREDIENTS ============ {%- endcomment -%}
+  {%- if s.ingr_groups != blank -%}
+    <section class="sec sec-cream" id="pfb-ingredients-{{ section.id }}" aria-labelledby="pfb-ingr-h-{{ section.id }}">
+      <div class="wrap ingr-grid">
+        <div class="ingr-copy reveal">
+          <span class="eyebrow">{{ s.ingr_eyebrow }}</span>
+          <h2 id="pfb-ingr-h-{{ section.id }}" style="margin-top:14px">{{ s.ingr_headline }}</h2>
+          <p>{{ s.ingr_body }}</p>
+
+          <dl class="ingr-list">
+            {%- assign groups = s.ingr_groups | newline_to_br | split: '<br />' -%}
+            {%- for g in groups -%}
+              {%- assign line = g | strip -%}
+              {%- if line != blank and line contains ':' -%}
+                {%- assign parts = line | split: ':' -%}
+                <div class="ingr-row">
+                  <dt>{{ parts[0] | strip }}</dt>
+                  <dd>
+                    {%- assign items = parts[1] | split: ',' -%}
+                    {%- for it in items -%}<span>{{ it | strip }}</span>{%- endfor -%}
+                  </dd>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </dl>
+        </div>
+
+        <div class="ingr-media reveal">
+          {%- assign img_ingr = s.ingr_image | default: product.images[5] -%}
+          {%- if img_ingr -%}
+            {{ img_ingr | image_url: width: 1000 | image_tag:
+                 widths: '400,600,800,1000', sizes: '(max-width: 900px) 100vw, 44vw',
+                 loading: 'lazy', alt: img_ingr.alt | default: product.title }}
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
   {%- comment -%} ============ SCENT ============ {%- endcomment -%}
   <section class="sec sec-deep scent" aria-labelledby="pfb-scent-h-{{ section.id }}">
     <div class="scent-split">
@@ -598,10 +637,6 @@
       <div class="sp-body">
         <div class="sp-name" data-toast-name></div>
         <div class="sp-action">purchased <b>{{ product.title | default: 'Fresh Body Butter' }}</b></div>
-        <div class="sp-ver">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Verified purchase
-        </div>
       </div>
       <div class="sp-time" data-toast-time></div>
     </div>
@@ -1021,6 +1056,13 @@
     { "type": "header", "content": "Benefits" },
     { "type": "text", "id": "benefits_eyebrow", "label": "Eyebrow", "default": "The difference" },
     { "type": "text", "id": "benefits_headline", "label": "Headline", "default": "Why your skin will love it" },
+
+    { "type": "header", "content": "Ingredients" },
+    { "type": "text", "id": "ingr_eyebrow", "label": "Eyebrow", "default": "What's inside" },
+    { "type": "text", "id": "ingr_headline", "label": "Headline", "default": "Nine ingredients. All of them doing something." },
+    { "type": "textarea", "id": "ingr_body", "label": "Intro", "default": "Three butters for the richness, five oils to carry it into the skin, and vitamin E. That is the whole jar." },
+    { "type": "textarea", "id": "ingr_groups", "label": "Ingredient groups", "info": "One group per line as Label: item, item, item. Leave blank to hide the section.", "default": "Butters: Shorea (SAL) butter, Shea butter, Murumuru butter\nOils: Grapeseed oil, Olive oil, Castor oil, Carrot oil, Fragrance oil\nPlus: Vitamin E" },
+    { "type": "image_picker", "id": "ingr_image", "label": "Ingredients image" },
 
     { "type": "header", "content": "Scent section" },
     { "type": "text", "id": "scent_eyebrow", "label": "Eyebrow", "default": "The scent" },

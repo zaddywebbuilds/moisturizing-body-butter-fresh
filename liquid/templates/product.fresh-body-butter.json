@@ -226,7 +226,11 @@
         "popup_success_title": "You're on the list.",
         "popup_success_body": "We will let you know the moment a new scent lands. Your 15% off and free gift are already waiting at checkout.",
         "show_toast": true,
-        "toast_buyers": "Jane from Charleston, SC\nMaya from Atlanta, GA\nTasha from Houston, TX\nBrianna from Chicago, IL\nMarcus from Detroit, MI\nAlicia from Miami, FL\nDanielle from Philadelphia, PA\nJordan from Phoenix, AZ\nNicole from Charlotte, NC\nKevin from Oakland, CA\nSimone from Baltimore, MD\nRachel from Nashville, TN\nAndre from Newark, NJ\nLatoya from Memphis, TN\nPriya from Columbus, OH\nChloe from Portland, OR"
+        "toast_buyers": "Jane from Charleston, SC\nMaya from Atlanta, GA\nTasha from Houston, TX\nBrianna from Chicago, IL\nMarcus from Detroit, MI\nAlicia from Miami, FL\nDanielle from Philadelphia, PA\nJordan from Phoenix, AZ\nNicole from Charlotte, NC\nKevin from Oakland, CA\nSimone from Baltimore, MD\nRachel from Nashville, TN\nAndre from Newark, NJ\nLatoya from Memphis, TN\nPriya from Columbus, OH\nChloe from Portland, OR",
+        "ingr_eyebrow": "What's inside",
+        "ingr_headline": "Nine ingredients. All of them doing something.",
+        "ingr_body": "Three butters for the richness, five oils to carry it into the skin, and vitamin E. That is the whole jar.",
+        "ingr_groups": "Butters: Shorea (SAL) butter, Shea butter, Murumuru butter\nOils: Grapeseed oil, Olive oil, Castor oil, Carrot oil, Fragrance oil\nPlus: Vitamin E"
       }
     }
   },

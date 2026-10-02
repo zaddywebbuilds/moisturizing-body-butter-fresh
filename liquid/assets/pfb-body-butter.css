@@ -291,6 +291,26 @@ to {opacity: 1; transform: none;}}
 @media (prefers-reduced-motion: reduce) {
 .pfb .reveal {opacity: 1; transform: none; transition: none;}
 .pfb {scroll-behavior: auto;}}
+.pfb .ingr-grid {display: grid; grid-template-columns: 1fr .92fr;
+  gap: 56px; align-items: center;}
+.pfb .ingr-copy h2 {font-size: clamp(30px, 3.6vw, 48px); margin-bottom: 18px;}
+.pfb .ingr-copy > p {font-size: 16.5px; color: var(--ink-soft); max-width: 42ch;}
+.pfb .ingr-list {margin: 28px 0 0; padding: 0;
+  display: grid; gap: 1px; background: var(--rule);
+  border-block: 1px solid var(--rule);}
+.pfb .ingr-row {background: var(--cream);
+  display: grid; grid-template-columns: 96px 1fr;
+  gap: 18px; align-items: baseline; padding: 16px 2px;}
+.pfb .ingr-row dt {font-size: 11px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--caramel);}
+.pfb .ingr-row dd {margin: 0; display: flex; flex-wrap: wrap; gap: 6px 10px;}
+.pfb .ingr-row dd span {font-size: 15px; color: var(--ink);}
+.pfb .ingr-row dd span:not(:last-child)::after {content: "·"; margin-left: 10px; color: var(--sand);}
+.pfb .ingr-media {border-radius: 22px; overflow: hidden;
+  aspect-ratio: 4 / 3; box-shadow: var(--shadow-md);}
+.pfb .ingr-media img {width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1.1s var(--ease);}
+.pfb .ingr-media:hover img {transform: scale(1.05);}
 .pfb .scent {padding: 0;}
 .pfb .scent-split {display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
@@ -598,6 +618,9 @@ to {opacity: 1; transform: none;}}
 .pfb .trust-row {margin-top: 14px; gap: 6px 18px;}
 .pfb .strip-inner {grid-template-columns: repeat(2, 1fr); gap: 16px;}
 .pfb .prob-grid, .pfb .tex-grid {grid-template-columns: 1fr; gap: 40px;}
+.pfb .ingr-grid {grid-template-columns: 1fr; gap: 30px;}
+.pfb .ingr-media {order: -1; aspect-ratio: 5 / 3;}
+.pfb .ingr-row {grid-template-columns: 1fr; gap: 6px; padding: 14px 2px;}
 .pfb .scent-split {grid-template-columns: 1fr; gap: 0; padding-right: 0;}
 .pfb .scent-media {border-radius: 0; aspect-ratio: 4 / 3;}
 .pfb .scent-copy {padding: 36px 24px 44px;}

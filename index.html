@@ -576,6 +576,44 @@ section { position: relative; }
   html { scroll-behavior: auto; }
 }
 
+/* ============ INGREDIENTS ============ */
+.ingr-grid {
+  display: grid; grid-template-columns: 1fr .92fr;
+  gap: 56px; align-items: center;
+}
+.ingr-copy h2 { font-size: clamp(30px, 3.6vw, 48px); margin-bottom: 18px; }
+.ingr-copy > p { font-size: 16.5px; color: var(--ink-soft); max-width: 42ch; }
+.ingr-list {
+  margin: 28px 0 0; padding: 0;
+  display: grid; gap: 1px; background: var(--rule);
+  border-block: 1px solid var(--rule);
+}
+.ingr-row {
+  background: var(--cream);
+  display: grid; grid-template-columns: 96px 1fr;
+  gap: 18px; align-items: baseline; padding: 16px 2px;
+}
+.ingr-row dt {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--caramel);
+}
+.ingr-row dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.ingr-row dd span {
+  font-size: 15px; color: var(--ink);
+}
+.ingr-row dd span:not(:last-child)::after {
+  content: "·"; margin-left: 10px; color: var(--sand);
+}
+.ingr-media {
+  border-radius: 22px; overflow: hidden;
+  aspect-ratio: 4 / 3; box-shadow: var(--shadow-md);
+}
+.ingr-media img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1.1s var(--ease);
+}
+.ingr-media:hover img { transform: scale(1.05); }
+
 /* ============ SCENT ============ */
 .scent { padding: 0; }
 .scent-split {
@@ -1028,6 +1066,9 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
   .trust-row { margin-top: 14px; gap: 6px 18px; }
   .strip-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .prob-grid, .tex-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ingr-grid { grid-template-columns: 1fr; gap: 30px; }
+  .ingr-media { order: -1; aspect-ratio: 5 / 3; }
+  .ingr-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 2px; }
   .scent-split { grid-template-columns: 1fr; gap: 0; padding-right: 0; }
   .scent-media { border-radius: 0; aspect-ratio: 4 / 3; }
   .scent-copy { padding: 36px 24px 44px; }
@@ -1338,6 +1379,51 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
 </section>
 
 <!-- ===================== SCENT ===================== -->
+<section class="sec sec-cream" id="ingredients" aria-labelledby="ingr-h">
+  <div class="wrap ingr-grid">
+    <div class="ingr-copy reveal">
+      <span class="eyebrow">What's inside</span>
+      <h2 id="ingr-h" style="margin-top:14px">Nine ingredients.<br>All of them doing something.</h2>
+      <p>
+        Three butters for the richness, five oils to carry it into the skin,
+        and vitamin E. That is the whole jar.
+      </p>
+
+      <dl class="ingr-list">
+        <div class="ingr-row">
+          <dt>Butters</dt>
+          <dd>
+            <span>Shorea (SAL) butter</span>
+            <span>Shea butter</span>
+            <span>Murumuru butter</span>
+          </dd>
+        </div>
+        <div class="ingr-row">
+          <dt>Oils</dt>
+          <dd>
+            <span>Grapeseed oil</span>
+            <span>Olive oil</span>
+            <span>Castor oil</span>
+            <span>Carrot oil</span>
+            <span>Fragrance oil</span>
+          </dd>
+        </div>
+        <div class="ingr-row">
+          <dt>Plus</dt>
+          <dd><span>Vitamin E</span></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="ingr-media reveal">
+      <img src="images/fresh-citrus-swirl.webp"
+           alt="Open jar of Fresh Body Butter beside a lemon slice and a swirl of the whipped butter"
+           width="1400" height="788" loading="lazy">
+    </div>
+  </div>
+</section>
+
+
 <section class="sec sec-deep scent" aria-labelledby="scent-h">
   <div class="scent-split">
     <figure class="scent-media reveal">
@@ -1755,10 +1841,6 @@ body.bar-on .sp-toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
   <div class="sp-body">
     <div class="sp-name" id="spName">Maya from Atlanta, GA</div>
     <div class="sp-action">purchased <b>Fresh Body Butter</b></div>
-    <div class="sp-ver">
-      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      Verified purchase
-    </div>
   </div>
   <div class="sp-time" id="spTime">1 hr ago</div>
 </div>
